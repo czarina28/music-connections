@@ -40,7 +40,7 @@ PUZZLES.push(
             { connection: "THE MONKEES SONGS", cards: ["I'm a Believer", "Last Train to Clarksville", "Daydream Believer", "Pleasant Valley Sunday"] },
             { connection: "THE GO-GO'S SONGS", cards: ["We Got the Beat", "Our Lips Are Sealed", "Vacation", "Head over Heels"] },
             { connection: "FAMOUS MUSICIANS NAMED GEORGE", cards: ["George Harrison", "George Michael", "George Clinton", "George Benson"] },
-            { connection: "BANDS WITH 'GO' IN THEIR NAMES", cards: ["The Go-Go's", "OK Go", "Go West", "Wham!"] }
+            { connection: "BANDS WITH 'GO' IN THEIR NAMES", cards: ["The Go-Go's", "OK Go", "Go West", "Go-Betweens"] }
         ]
     },
     {
