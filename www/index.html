@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Connections</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<main class="game">
+    <header>
+        <h1>MUSIC <span>CONNECTIONS</span></h1>
+        <p>Find four groups of four connected by music.</p>
+    </header>
+
+    <section id="solvedGroups" class="solved-groups"></section>
+
+    <section id="board" class="board"></section>
+
+    <div class="mistakes">
+        Mistakes remaining:
+        <span id="mistakes"></span>
+    </div>
+
+<div class="controls">
+    <button id="shuffleBtn">SHUFFLE</button>
+    <button id="deselectBtn">DESELECT</button>
+    <button id="newGameBtn">NEW GAME</button>
+    <button id="submitBtn" class="primary">SUBMIT</button>
+</div>
+
+    <div id="message" class="message"></div>
+</main>
+
+<script src="puzzles.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
