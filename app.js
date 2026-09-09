@@ -1,17 +1,20 @@
-let currentPuzzleIndex =
-    Math.floor(Math.random() * PUZZLES.length);
-
+let currentPuzzleIndex = Math.floor(Math.random() * PUZZLES.length);
 let puzzle = PUZZLES[currentPuzzleIndex].groups;
 let remainingCards = puzzle.flatMap(group => group.cards);
 let selected = [];
 let solved = [];
 let mistakesRemaining = 4;
-let gameOver = false;
+let roundOver = false;
+let roundNumber = 1;
+let score = 0;
 
 const board = document.getElementById("board");
 const solvedGroups = document.getElementById("solvedGroups");
 const mistakes = document.getElementById("mistakes");
 const message = document.getElementById("message");
+const roundNumberDisplay = document.getElementById("roundNumber");
+const scoreDisplay = document.getElementById("score");
+const nextRoundBtn = document.getElementById("nextRoundBtn");
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -28,25 +31,26 @@ function render() {
         button.className = "card";
         button.textContent = card;
 
-        if (selected.includes(card)) {
-            button.classList.add("selected");
-        }
+        if (selected.includes(card)) button.classList.add("selected");
 
         button.addEventListener("click", () => selectCard(card));
         board.appendChild(button);
     });
 
     mistakes.innerHTML = "";
-
     for (let i = 0; i < mistakesRemaining; i++) {
         const dot = document.createElement("span");
         dot.className = "mistake-dot";
         mistakes.appendChild(dot);
     }
+
+    roundNumberDisplay.textContent = roundNumber;
+    scoreDisplay.textContent = score;
+    nextRoundBtn.style.display = roundOver ? "inline-block" : "none";
 }
 
 function selectCard(card) {
-    if (gameOver) return;
+    if (roundOver) return;
 
     if (selected.includes(card)) {
         selected = selected.filter(item => item !== card);
@@ -60,7 +64,7 @@ function selectCard(card) {
 }
 
 function submitGuess() {
-    if (gameOver) return;
+    if (roundOver) return;
 
     if (selected.length !== 4) {
         message.textContent = "Select four cards.";
@@ -74,29 +78,25 @@ function submitGuess() {
 
     if (match) {
         solved.push(match);
-
-        remainingCards = remainingCards.filter(
-            card => !match.cards.includes(card)
-        );
-
+        remainingCards = remainingCards.filter(card => !match.cards.includes(card));
         showSolvedGroup(match);
-
         selected = [];
         message.textContent = "Correct.";
 
         if (solved.length === 4) {
-            message.textContent = "You found all four connections!";
-            gameOver = true;
+            const pointsEarned = mistakesRemaining;
+            score += pointsEarned;
+            roundOver = true;
+            message.textContent = `ROUND COMPLETE — +${pointsEarned} ${pointsEarned === 1 ? "POINT" : "POINTS"}`;
         }
-
     } else {
         mistakesRemaining--;
         selected = [];
         message.textContent = "Not quite.";
 
         if (mistakesRemaining === 0) {
-            message.textContent = "Game over.";
-            gameOver = true;
+            roundOver = true;
+            message.textContent = "ROUND OVER — +0 POINTS";
             revealRemainingGroups();
         }
     }
@@ -108,9 +108,7 @@ function showSolvedGroup(group, wasSolved = true) {
     const div = document.createElement("div");
     div.className = "solved-group";
 
-    if (!wasSolved) {
-        div.classList.add("revealed-group");
-    }
+    if (!wasSolved) div.classList.add("revealed-group");
 
     div.innerHTML = `
         <strong>${group.connection}</strong>
@@ -122,53 +120,49 @@ function showSolvedGroup(group, wasSolved = true) {
 
 function revealRemainingGroups() {
     puzzle.forEach(group => {
-        if (!solved.includes(group)) {
-            showSolvedGroup(group, false);
-        }
+        if (!solved.includes(group)) showSolvedGroup(group, false);
     });
-
     remainingCards = [];
+}
+
+function startNextRound() {
+    let nextIndex;
+    do {
+        nextIndex = Math.floor(Math.random() * PUZZLES.length);
+    } while (PUZZLES.length > 1 && nextIndex === currentPuzzleIndex);
+
+    currentPuzzleIndex = nextIndex;
+    puzzle = PUZZLES[currentPuzzleIndex].groups;
+    remainingCards = puzzle.flatMap(group => group.cards);
+    selected = [];
+    solved = [];
+    mistakesRemaining = 4;
+    roundOver = false;
+    roundNumber++;
+
+    solvedGroups.innerHTML = "";
+    message.textContent = "";
+    shuffle(remainingCards);
+    render();
 }
 
 document.getElementById("submitBtn").addEventListener("click", submitGuess);
 
 document.getElementById("deselectBtn").addEventListener("click", () => {
+    if (roundOver) return;
     selected = [];
     message.textContent = "";
     render();
 });
 
 document.getElementById("shuffleBtn").addEventListener("click", () => {
+    if (roundOver) return;
     shuffle(remainingCards);
     selected = [];
     render();
 });
+
+nextRoundBtn.addEventListener("click", startNextRound);
 
 shuffle(remainingCards);
 render();
-
-document.getElementById("newGameBtn").addEventListener("click", () => {
-    let nextIndex;
-
-    do {
-        nextIndex = Math.floor(Math.random() * PUZZLES.length);
-    } while (
-        PUZZLES.length > 1 &&
-        nextIndex === currentPuzzleIndex
-    );
-
-    currentPuzzleIndex = nextIndex;
-    puzzle = PUZZLES[currentPuzzleIndex].groups;
-
-    remainingCards = puzzle.flatMap(group => group.cards);
-    selected = [];
-    solved = [];
-    mistakesRemaining = 4;
-    gameOver = false;
-
-    solvedGroups.innerHTML = "";
-    message.textContent = "";
-
-    shuffle(remainingCards);
-    render();
-});
