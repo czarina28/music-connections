@@ -119,5 +119,49 @@ const PUZZLES = [
             { connection: "SEATTLE GRUNGE BANDS", cards: ["Nirvana", "Pearl Jam", "Soundgarden", "Alice in Chains"] },
             { connection: "EARLY PUNK BANDS", cards: ["Ramones", "The Clash", "Sex Pistols", "The Damned"] }
         ]
+    },
+    {
+        id: 12,
+        title: "Puzzle 012",
+        difficulty: "easy",
+        groups: [
+            { connection: "QUEEN SONGS", cards: ["Bohemian Rhapsody", "Somebody to Love", "Killer Queen", "We Will Rock You"] },
+            { connection: "U2 ALBUMS", cards: ["War", "The Joshua Tree", "Achtung Baby", "Zooropa"] },
+            { connection: "FAMOUS FRONTMEN", cards: ["Mick Jagger", "Robert Plant", "Roger Daltrey", "Freddie Mercury"] },
+            { connection: "BANDS WITH ANIMAL NAMES", cards: ["The Byrds", "The Monkees", "Eagles", "Scorpions"] }
+        ]
+    },
+    {
+        id: 13,
+        title: "Puzzle 013",
+        difficulty: "easy",
+        groups: [
+            { connection: "THE POLICE SONGS", cards: ["Roxanne", "Message in a Bottle", "Every Breath You Take", "Walking on the Moon"] },
+            { connection: "REM ALBUMS", cards: ["Murmur", "Reckoning", "Document", "Green"] },
+            { connection: "FAMOUS BASS PLAYERS", cards: ["Paul McCartney", "John Entwistle", "Geddy Lee", "John Paul Jones"] },
+            { connection: "BANDS WITH NUMBERS IN THEIR NAMES", cards: ["U2", "Blink-182", "Maroon 5", "UB40"] }
+        ]
+    },
+    {
+        id: 14,
+        title: "Puzzle 014",
+        difficulty: "easy",
+        groups: [
+            { connection: "BLONDIE SONGS", cards: ["Heart of Glass", "Call Me", "One Way or Another", "Rapture"] },
+            { connection: "THE SMITHS SONGS", cards: ["This Charming Man", "How Soon Is Now?", "There Is a Light That Never Goes Out", "Panic"] },
+            { connection: "FEMALE ROCK VOCALISTS", cards: ["Debbie Harry", "Patti Smith", "Chrissie Hynde", "Siouxsie Sioux"] },
+            { connection: "BANDS WITH COLORS IN THEIR NAMES", cards: ["Pink Floyd", "Deep Purple", "Black Sabbath", "Simply Red"] }
+        ]
+    },
+    {
+        id: 15,
+        title: "Puzzle 015",
+        difficulty: "easy",
+        groups: [
+            { connection: "TALKING HEADS SONGS", cards: ["Psycho Killer", "Once in a Lifetime", "Burning Down the House", "Road to Nowhere"] },
+            { connection: "THE CLASH SONGS", cards: ["London Calling", "Should I Stay or Should I Go", "Train in Vain", "Rock the Casbah"] },
+            { connection: "FAMOUS KEYBOARD PLAYERS", cards: ["Ray Manzarek", "Rick Wakeman", "Keith Emerson", "Tony Banks"] },
+            { connection: "BANDS WITH FOOD IN THEIR NAMES", cards: ["Cream", "Bread", "Hot Chocolate", "The Cranberries"] }
+        ]
     }
 ];
