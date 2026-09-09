@@ -51,7 +51,7 @@ PUZZLES.push(
             { connection: "LOU REED SONGS", cards: ["Walk on the Wild Side", "Perfect Day", "Satellite of Love", "Vicious"] },
             { connection: "THE SPECIALS SONGS", cards: ["Ghost Town", "A Message to You Rudy", "Too Much Too Young", "Gangsters"] },
             { connection: "ARTISTS ASSOCIATED WITH STAX RECORDS", cards: ["Otis Redding", "Isaac Hayes", "Booker T. & the M.G.'s", "Sam & Dave"] },
-            { connection: "BANDS WITH 'GHOST' IN THEIR NAMES", cards: ["Ghost", "Ghost Town", "Ghost Dance", "Ghost of the Robot"] }
+            { connection: "NAMES WITH 'GHOST'", cards: ["Ghost", "The Ghost in You", "Ghost Dance", "Ghost of the Robot"] }
         ]
     },
     {
