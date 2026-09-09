@@ -73,7 +73,7 @@ PUZZLES.push(
             { connection: "VIOLENT FEMMES SONGS", cards: ["Blister in the Sun", "Kiss Off", "Add It Up", "Gone Daddy Gone"] },
             { connection: "BOB MOULD SONGS", cards: ["See a Little Light", "Wishing Well", "If I Can't Change Your Mind", "The Descent"] },
             { connection: "MINNEAPOLIS MUSIC ACTS", cards: ["Prince", "The Replacements", "Hüsker Dü", "Soul Asylum"] },
-            { connection: "BANDS WITH 'SOUL' IN THEIR NAMES", cards: ["Soul Asylum", "De La Soul", "Collective Soul", "Soul II Soul"] }
+            { connection: "BANDS WITH 'SOUL' IN THEIR NAMES", cards: ["Soul Coughing", "De La Soul", "Collective Soul", "Soul II Soul"] }
         ]
     },
     {
