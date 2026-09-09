@@ -108,5 +108,16 @@ const PUZZLES = [
             { connection: "FAMOUS COVER SONGS", cards: ["All Along the Watchtower", "Hallelujah", "Respect", "Hurt"] },
             { connection: "BANDS BEGINNING WITH THE", cards: ["The Kinks", "The Doors", "The Clash", "The Smiths"] }
         ]
+    },
+    {
+        id: 11,
+        title: "Puzzle 011",
+        difficulty: "easy",
+        groups: [
+            { connection: "BRITISH INVASION BANDS", cards: ["The Beatles", "The Rolling Stones", "The Kinks", "The Who"] },
+            { connection: "ARTISTS KNOWN BY ONE NAME", cards: ["Bowie", "Prince", "Madonna", "Cher"] },
+            { connection: "SEATTLE GRUNGE BANDS", cards: ["Nirvana", "Pearl Jam", "Soundgarden", "Alice in Chains"] },
+            { connection: "EARLY PUNK BANDS", cards: ["Ramones", "The Clash", "Sex Pistols", "The Damned"] }
+        ]
     }
 ];
