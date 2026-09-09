@@ -1,4 +1,17 @@
-let currentPuzzleIndex = Math.floor(Math.random() * PUZZLES.length);
+function puzzleHasUniqueCards(puzzleEntry) {
+    const cards = puzzleEntry.groups.flatMap(group => group.cards);
+    return cards.length === 16 && new Set(cards).size === 16;
+}
+
+const VALID_PUZZLE_INDEXES = PUZZLES
+    .map((puzzleEntry, index) => puzzleHasUniqueCards(puzzleEntry) ? index : -1)
+    .filter(index => index !== -1);
+
+if (VALID_PUZZLE_INDEXES.length === 0) {
+    throw new Error("No valid puzzles available: every puzzle must contain 16 unique cards.");
+}
+
+let currentPuzzleIndex = VALID_PUZZLE_INDEXES[Math.floor(Math.random() * VALID_PUZZLE_INDEXES.length)];
 let puzzle = PUZZLES[currentPuzzleIndex].groups;
 let remainingCards = puzzle.flatMap(group => group.cards);
 let selected = [];
@@ -123,10 +136,12 @@ function revealRemainingGroups() {
 }
 
 function chooseDifferentPuzzle() {
+    if (VALID_PUZZLE_INDEXES.length === 1) return VALID_PUZZLE_INDEXES[0];
+
     let nextIndex;
     do {
-        nextIndex = Math.floor(Math.random() * PUZZLES.length);
-    } while (PUZZLES.length > 1 && nextIndex === currentPuzzleIndex);
+        nextIndex = VALID_PUZZLE_INDEXES[Math.floor(Math.random() * VALID_PUZZLE_INDEXES.length)];
+    } while (nextIndex === currentPuzzleIndex);
     return nextIndex;
 }
 
