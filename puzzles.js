@@ -4,7 +4,7 @@ const PUZZLES = [
         title: "Puzzle 001",
         difficulty: "easy",
         groups: [
-            { connection: "YARDBIRDS GUITARISTS", cards: ["Eric Clapton", "Jeff Beck", "Jimmy Page", "Top Topham"] },
+            { connection: "BRITISH INVASION BANDS", cards: ["The Kinks", "The Hollies", "The Animals", "The Zombies"] },
             { connection: "VELVET UNDERGROUND", cards: ["Lou Reed", "John Cale", "Moe Tucker", "Sterling Morrison"] },
             { connection: "BOWIE PERSONAS", cards: ["Ziggy Stardust", "Aladdin Sane", "Thin White Duke", "Major Tom"] },
             { connection: "WOODSTOCK PERFORMERS", cards: ["Janis Joplin", "Jimi Hendrix", "Joe Cocker", "Richie Havens"] }
@@ -26,7 +26,7 @@ const PUZZLES = [
         title: "Puzzle 003",
         difficulty: "medium",
         groups: [
-            { connection: "MEMBERS OF THE POLICE", cards: ["Sting", "Andy Summers", "Stewart Copeland", "Henry Padovani"] },
+            { connection: "SONGS WITH DAYS OF THE WEEK", cards: ["Friday I'm in Love", "Monday Monday", "Ruby Tuesday", "Sunday Bloody Sunday"] },
             { connection: "TALKING HEADS", cards: ["David Byrne", "Tina Weymouth", "Chris Frantz", "Jerry Harrison"] },
             { connection: "LED ZEPPELIN MEMBERS", cards: ["Robert Plant", "Jimmy Page", "John Paul Jones", "John Bonham"] },
             { connection: "RAMONES", cards: ["Joey", "Johnny", "Dee Dee", "Tommy"] }
@@ -35,7 +35,7 @@ const PUZZLES = [
     {
         id: 4,
         title: "Puzzle 004",
-        difficulty: "easy",
+        difficulty: "medium",
         groups: [
             { connection: "TALKING HEADS MEMBERS", cards: ["David Byrne", "Tina Weymouth", "Chris Frantz", "Jerry Harrison"] },
             { connection: "DAVID BOWIE ALBUMS", cards: ["Low", "Heroes", "Lodger", "Scary Monsters"] },
