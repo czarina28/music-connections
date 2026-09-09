@@ -5,6 +5,7 @@ let selected = [];
 let solved = [];
 let mistakesRemaining = 4;
 let roundOver = false;
+let roundFailed = false;
 let roundNumber = 1;
 let score = 0;
 
@@ -15,6 +16,10 @@ const message = document.getElementById("message");
 const roundNumberDisplay = document.getElementById("roundNumber");
 const scoreDisplay = document.getElementById("score");
 const nextRoundBtn = document.getElementById("nextRoundBtn");
+const newGameBtn = document.getElementById("newGameBtn");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const deselectBtn = document.getElementById("deselectBtn");
+const submitBtn = document.getElementById("submitBtn");
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -25,14 +30,11 @@ function shuffle(array) {
 
 function render() {
     board.innerHTML = "";
-
     remainingCards.forEach(card => {
         const button = document.createElement("button");
         button.className = "card";
         button.textContent = card;
-
         if (selected.includes(card)) button.classList.add("selected");
-
         button.addEventListener("click", () => selectCard(card));
         board.appendChild(button);
     });
@@ -46,26 +48,27 @@ function render() {
 
     roundNumberDisplay.textContent = roundNumber;
     scoreDisplay.textContent = score;
-    nextRoundBtn.style.display = roundOver ? "inline-block" : "none";
+
+    shuffleBtn.style.display = roundFailed ? "none" : "inline-block";
+    deselectBtn.style.display = roundFailed ? "none" : "inline-block";
+    submitBtn.style.display = roundFailed ? "none" : "inline-block";
+    nextRoundBtn.style.display = roundOver && !roundFailed ? "inline-block" : "none";
+    newGameBtn.style.display = roundFailed ? "inline-block" : "none";
 }
 
 function selectCard(card) {
     if (roundOver) return;
-
-    if (selected.includes(card)) {
-        selected = selected.filter(item => item !== card);
-    } else {
+    if (selected.includes(card)) selected = selected.filter(item => item !== card);
+    else {
         if (selected.length >= 4) return;
         selected.push(card);
     }
-
     message.textContent = "";
     render();
 }
 
 function submitGuess() {
     if (roundOver) return;
-
     if (selected.length !== 4) {
         message.textContent = "Select four cards.";
         return;
@@ -96,25 +99,19 @@ function submitGuess() {
 
         if (mistakesRemaining === 0) {
             roundOver = true;
+            roundFailed = true;
             message.textContent = "ROUND OVER — +0 POINTS";
             revealRemainingGroups();
         }
     }
-
     render();
 }
 
 function showSolvedGroup(group, wasSolved = true) {
     const div = document.createElement("div");
     div.className = "solved-group";
-
     if (!wasSolved) div.classList.add("revealed-group");
-
-    div.innerHTML = `
-        <strong>${group.connection}</strong>
-        <span>${group.cards.join(" · ")}</span>
-    `;
-
+    div.innerHTML = `<strong>${group.connection}</strong><span>${group.cards.join(" · ")}</span>`;
     solvedGroups.appendChild(div);
 }
 
@@ -125,12 +122,15 @@ function revealRemainingGroups() {
     remainingCards = [];
 }
 
-function startNextRound() {
+function chooseDifferentPuzzle() {
     let nextIndex;
     do {
         nextIndex = Math.floor(Math.random() * PUZZLES.length);
     } while (PUZZLES.length > 1 && nextIndex === currentPuzzleIndex);
+    return nextIndex;
+}
 
+function loadRound(nextIndex) {
     currentPuzzleIndex = nextIndex;
     puzzle = PUZZLES[currentPuzzleIndex].groups;
     remainingCards = puzzle.flatMap(group => group.cards);
@@ -138,31 +138,39 @@ function startNextRound() {
     solved = [];
     mistakesRemaining = 4;
     roundOver = false;
-    roundNumber++;
-
+    roundFailed = false;
     solvedGroups.innerHTML = "";
     message.textContent = "";
     shuffle(remainingCards);
     render();
 }
 
-document.getElementById("submitBtn").addEventListener("click", submitGuess);
+function startNextRound() {
+    roundNumber++;
+    loadRound(chooseDifferentPuzzle());
+}
 
-document.getElementById("deselectBtn").addEventListener("click", () => {
+function startNewGame() {
+    roundNumber = 1;
+    score = 0;
+    loadRound(chooseDifferentPuzzle());
+}
+
+submitBtn.addEventListener("click", submitGuess);
+deselectBtn.addEventListener("click", () => {
     if (roundOver) return;
     selected = [];
     message.textContent = "";
     render();
 });
-
-document.getElementById("shuffleBtn").addEventListener("click", () => {
+shuffleBtn.addEventListener("click", () => {
     if (roundOver) return;
     shuffle(remainingCards);
     selected = [];
     render();
 });
-
 nextRoundBtn.addEventListener("click", startNextRound);
+newGameBtn.addEventListener("click", startNewGame);
 
 shuffle(remainingCards);
 render();
