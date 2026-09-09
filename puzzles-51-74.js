@@ -20,7 +20,7 @@ PUZZLES.push(
   { id:54, title:"Puzzle 054", difficulty:"easy", groups:[
     { connection:"PRINCE SONGS", cards:["1999","Little Red Corvette","Kiss","Raspberry Beret"] },
     { connection:"MADONNA SONGS", cards:["Holiday","Like a Virgin","Material Girl","Like a Prayer"] },
-    { connection:"1980s SUPERSTAR ALBUMS", cards:["Thriller","Purple Rain","Like a Virgin","Born in the U.S.A."] },
+    { connection:"1980s SUPERSTAR ALBUMS", cards:["Thriller","Purple Rain","Back in Black","Born in the U.S.A."] },
     { connection:"1980s SONGS WITH WOMEN'S NAMES", cards:["Rosanna","Billie Jean","Mickey","Amanda"] }
   ]},
   { id:55, title:"Puzzle 055", difficulty:"easy", groups:[
@@ -57,25 +57,25 @@ PUZZLES.push(
     { connection:"SIOUXSIE AND THE BANSHEES SONGS", cards:["Happy House","Spellbound","Cities in Dust","Peek-a-Boo"] },
     { connection:"BAUHAUS SONGS", cards:["Bela Lugosi's Dead","She's in Parties","Kick in the Eye","Dark Entries"] },
     { connection:"GOTHIC ROCK ACTS", cards:["The Sisters of Mercy","The Mission","Fields of the Nephilim","The March Violets"] },
-    { connection:"1980s SONGS WITH HOUSE IN THE TITLE", cards:["Happy House","House of Fun","Our House","Burning Down the House"] }
+    { connection:"1980s SONGS WITH HOUSE IN THE TITLE", cards:["House of Fun","Our House","Burning Down the House","Housequake"] }
   ]},
   { id:61, title:"Puzzle 061", difficulty:"easy", groups:[
     { connection:"MICHAEL JACKSON SONGS", cards:["Beat It","Billie Jean","Bad","Smooth Criminal"] },
     { connection:"WHITNEY HOUSTON SONGS", cards:["How Will I Know","Greatest Love of All","I Wanna Dance with Somebody","Didn't We Almost Have It All"] },
     { connection:"1980s NUMBER ONE SINGLES", cards:["Faith","Heaven Is a Place on Earth","Kokomo","Straight Up"] },
-    { connection:"1980s SONGS WITH DANCE OR DANCING", cards:["Dancing in the Dark","I Wanna Dance with Somebody","Safety Dance","Dancing with Myself"] }
+    { connection:"1980s SONGS WITH DANCE OR DANCING", cards:["Dancing in the Dark","Let's Dance","Safety Dance","Dancing with Myself"] }
   ]},
   { id:62, title:"Puzzle 062", difficulty:"medium", groups:[
     { connection:"PIXIES SONGS", cards:["Gigantic","Where Is My Mind?","Monkey Gone to Heaven","Here Comes Your Man"] },
     { connection:"SONIC YOUTH SONGS", cards:["Teen Age Riot","Silver Rocket","Schizophrenia","Candle"] },
-    { connection:"1980s AMERICAN ALTERNATIVE BANDS", cards:["Dinosaur Jr.","Meat Puppets","Minutemen","Butthole Surfers"] },
+    { connection:"1980s AMERICAN ALTERNATIVE BANDS", cards:["Dinosaur Jr.","Fugazi","Throwing Muses","Butthole Surfers"] },
     { connection:"1980s SST RECORDS ACTS", cards:["Black Flag","Hüsker Dü","Minutemen","Meat Puppets"] }
   ]},
   { id:63, title:"Puzzle 063", difficulty:"easy", groups:[
     { connection:"GEORGE MICHAEL SONGS", cards:["Faith","Father Figure","One More Try","Monkey"] },
     { connection:"CYNDI LAUPER SONGS", cards:["Girls Just Want to Have Fun","Time After Time","She Bop","True Colors"] },
-    { connection:"1980s SONGS WITH TIME IN THE TITLE", cards:["Time After Time","If I Could Turn Back Time","Got the Time","Time Stand Still"] },
-    { connection:"1980s ACTS WITH GEORGE IN THE NAME", cards:["George Michael","Boy George","George Thorogood","Culture Club"] }
+    { connection:"1980s SONGS WITH TIME IN THE TITLE", cards:["Time (Clock of the Heart)","If I Could Turn Back Time","Got the Time","Time Stand Still"] },
+    { connection:"1980s ACTS WITH GEORGE IN THE NAME", cards:["George Michael","Boy George","George Thorogood","George Clinton"] }
   ]},
   { id:64, title:"Puzzle 064", difficulty:"medium", groups:[
     { connection:"THE REPLACEMENTS SONGS", cards:["I Will Dare","Bastards of Young","Alex Chilton","Can't Hardly Wait"] },
@@ -86,26 +86,26 @@ PUZZLES.push(
   { id:65, title:"Puzzle 065", difficulty:"easy", groups:[
     { connection:"RUN-D.M.C. SONGS", cards:["It's Like That","King of Rock","Walk This Way","It's Tricky"] },
     { connection:"BEASTIE BOYS SONGS", cards:["Fight for Your Right","No Sleep till Brooklyn","Paul Revere","Brass Monkey"] },
-    { connection:"1980s HIP-HOP ACTS", cards:["Public Enemy","LL Cool J","Salt-N-Pepa","Eric B. & Rakim"] },
+    { connection:"1980s HIP-HOP ACTS", cards:["Boogie Down Productions","De La Soul","Salt-N-Pepa","Eric B. & Rakim"] },
     { connection:"DEF JAM ACTS OF THE 1980s", cards:["LL Cool J","Beastie Boys","Public Enemy","Slick Rick"] }
   ]},
   { id:66, title:"Puzzle 066", difficulty:"easy", groups:[
     { connection:"TINA TURNER SONGS", cards:["What's Love Got to Do with It","Private Dancer","We Don't Need Another Hero","The Best"] },
     { connection:"PAT BENATAR SONGS", cards:["Hit Me with Your Best Shot","Love Is a Battlefield","We Belong","Invincible"] },
     { connection:"1980s FEMALE ROCK SINGERS", cards:["Joan Jett","Chrissie Hynde","Ann Wilson","Stevie Nicks"] },
-    { connection:"1980s SONGS WITH LOVE IN THE TITLE", cards:["What's Love Got to Do with It","Love Is a Battlefield","The Power of Love","I Want to Know What Love Is"] }
+    { connection:"1980s SONGS WITH LOVE IN THE TITLE", cards:["Higher Love","Tainted Love","The Power of Love","I Want to Know What Love Is"] }
   ]},
   { id:67, title:"Puzzle 067", difficulty:"medium", groups:[
     { connection:"THE PSYCHEDELIC FURS SONGS", cards:["Pretty in Pink","Love My Way","The Ghost in You","Heaven"] },
     { connection:"ECHO & THE BUNNYMEN SONGS", cards:["The Killing Moon","The Cutter","Lips Like Sugar","Bring on the Dancing Horses"] },
     { connection:"1980s LIVERPOOL ACTS", cards:["Frankie Goes to Hollywood","A Flock of Seagulls","The Icicle Works","Dead or Alive"] },
-    { connection:"1980s SONGS USED AS JOHN HUGHES FILM TITLES", cards:["Pretty in Pink","Some Kind of Wonderful","She's Having a Baby","Weird Science"] }
+    { connection:"JOHN HUGHES FILM TITLES THAT ARE ALSO SONG TITLES", cards:["Sixteen Candles","Some Kind of Wonderful","She's Having a Baby","Weird Science"] }
   ]},
   { id:68, title:"Puzzle 068", difficulty:"easy", groups:[
     { connection:"GUNS N' ROSES SONGS", cards:["Welcome to the Jungle","Paradise City","Sweet Child o' Mine","Patience"] },
     { connection:"MÖTLEY CRÜE SONGS", cards:["Shout at the Devil","Home Sweet Home","Girls, Girls, Girls","Dr. Feelgood"] },
     { connection:"1980s LOS ANGELES ROCK BANDS", cards:["Guns N' Roses","Mötley Crüe","Ratt","Poison"] },
-    { connection:"1980s SONGS WITH HOME IN THE TITLE", cards:["Home Sweet Home","Take Me Home Tonight","Home by the Sea","Coming Home"] }
+    { connection:"1980s SONGS WITH HOME IN THE TITLE", cards:["Take Me Home","Take Me Home Tonight","Home by the Sea","Coming Home"] }
   ]},
   { id:69, title:"Puzzle 069", difficulty:"medium", groups:[
     { connection:"XTC SONGS", cards:["Senses Working Overtime","Dear God","Mayor of Simpleton","Making Plans for Nigel"] },
@@ -116,14 +116,14 @@ PUZZLES.push(
   { id:70, title:"Puzzle 070", difficulty:"easy", groups:[
     { connection:"EURYTHMICS SONGS", cards:["Sweet Dreams (Are Made of This)","Here Comes the Rain Again","Would I Lie to You?","Missionary Man"] },
     { connection:"BILLY IDOL SONGS", cards:["White Wedding","Rebel Yell","Eyes Without a Face","Mony Mony"] },
-    { connection:"1980s SONGS WITH EYES IN THE TITLE", cards:["Eyes Without a Face","Private Eyes","Bette Davis Eyes","Hungry Eyes"] },
+    { connection:"1980s SONGS WITH EYES IN THE TITLE", cards:["For Your Eyes Only","Private Eyes","Bette Davis Eyes","Hungry Eyes"] },
     { connection:"1980s ACTS WITH BILLY IN THE NAME", cards:["Billy Idol","Billy Joel","Billy Ocean","Billy Bragg"] }
   ]},
   { id:71, title:"Puzzle 071", difficulty:"medium", groups:[
     { connection:"KATE BUSH SONGS", cards:["Babooshka","Running Up That Hill","Cloudbusting","Hounds of Love"] },
     { connection:"PETER GABRIEL SONGS", cards:["Games Without Frontiers","Shock the Monkey","Sledgehammer","In Your Eyes"] },
     { connection:"1980s ARTISTS WHO WORKED WITH KATE BUSH", cards:["Peter Gabriel","David Gilmour","Prince","Roy Harper"] },
-    { connection:"1980s SONGS WITH MONKEY IN THE TITLE", cards:["Shock the Monkey","Brass Monkey","Monkey","Monkey Gone to Heaven"] }
+    { connection:"1980s SONGS WITH MONKEY IN THE TITLE", cards:["Monkey on Your Back","Brass Monkey","Monkey","Monkey Gone to Heaven"] }
   ]},
   { id:72, title:"Puzzle 072", difficulty:"easy", groups:[
     { connection:"AEROSMITH 1980s SONGS", cards:["Dude (Looks Like a Lady)","Angel","Rag Doll","Janie's Got a Gun"] },
@@ -140,7 +140,7 @@ PUZZLES.push(
   { id:74, title:"Puzzle 074", difficulty:"easy", groups:[
     { connection:"BONNIE TYLER SONGS", cards:["Total Eclipse of the Heart","Holding Out for a Hero","It's a Heartache","Have You Ever Seen the Rain?"] },
     { connection:"HALL & OATES SONGS", cards:["You Make My Dreams","Private Eyes","Maneater","Out of Touch"] },
-    { connection:"1980s SONGS WITH HEART IN THE TITLE", cards:["Total Eclipse of the Heart","Hungry Heart","Open Your Heart","Owner of a Lonely Heart"] },
+    { connection:"1980s SONGS WITH HEART IN THE TITLE", cards:["Heart and Soul","Hungry Heart","Open Your Heart","Owner of a Lonely Heart"] },
     { connection:"1980s DUOS", cards:["Hall & Oates","Soft Cell","Wham!","Eurythmics"] }
   ]}
 );
