@@ -29,7 +29,7 @@ PUZZLES.push(
             { connection: "THE YARDBIRDS SONGS", cards: ["For Your Love", "Heart Full of Soul", "Shapes of Things", "Over Under Sideways Down"] },
             { connection: "KATE BUSH SONGS", cards: ["Wuthering Heights", "Running Up That Hill", "Babooshka", "Cloudbusting"] },
             { connection: "GUITARISTS WHO PLAYED IN THE YARDBIRDS", cards: ["Eric Clapton", "Jeff Beck", "Jimmy Page", "Chris Dreja"] },
-            { connection: "BANDS WITH 'HEART' IN THEIR NAMES", cards: ["Heart", "Broken Social Scene", "The Heartbreakers", "Bleeding Heart Band"] }
+            { connection: "BANDS WITH 'HEART' IN THEIR NAMES", cards: ["Heart", "Heartless Bastards", "The Heartbreakers", "Bleeding Heart Band"] }
         ]
     },
     {
