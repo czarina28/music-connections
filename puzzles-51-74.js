@@ -50,7 +50,7 @@ PUZZLES.push(
   { id:59, title:"Puzzle 059", difficulty:"easy", groups:[
     { connection:"A-HA SONGS", cards:["Take on Me","The Sun Always Shines on T.V.","Hunting High and Low","The Living Daylights"] },
     { connection:"TEARS FOR FEARS SONGS", cards:["Mad World","Shout","Everybody Wants to Rule the World","Head over Heels"] },
-    { connection:"1980s SONGS WITH WORLD IN THE TITLE", cards:["Everybody Wants to Rule the World","World in Motion","It's the End of the World as We Know It","World Shut Your Mouth"] },
+    { connection:"SONGS WITH WORLD IN THE TITLE", cards:["Joy to the World","World in Motion","It's the End of the World as We Know It","World Shut Your Mouth"] },
     { connection:"1980s DUOS", cards:["Eurythmics","Wham!","Pet Shop Boys","Erasure"] }
   ]},
   { id:60, title:"Puzzle 060", difficulty:"medium", groups:[
