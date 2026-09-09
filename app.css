@@ -10,319 +10,66 @@
     --ink: #171717;
     --white: #f5f2eb;
     --orange: #d84f32;
-
     --group-1: #b8a2c8;
     --group-2: #e6c85d;
     --group-3: #9db38d;
     --group-4: #91afd0;
 }
 
-html,
-body {
-    margin: 0;
-    min-height: 100%;
-}
+html, body { margin: 0; min-height: 100%; }
+body { min-height: 100vh; background: var(--black); color: var(--white); font-family: Arial, Helvetica, sans-serif; }
+.game { width: min(92vw, 760px); margin: 0 auto; padding: 34px 0 50px; }
 
-body {
-    min-height: 100vh;
-    background: var(--black);
-    color: var(--white);
-    font-family: Arial, Helvetica, sans-serif;
-}
+header { text-align: center; margin-bottom: 32px; }
+h1 { margin: 0; color: var(--white); font-size: clamp(30px, 6vw, 48px); line-height: .95; letter-spacing: -2px; font-weight: 900; }
+h1 span { color: var(--orange); }
+header p { margin: 13px 0 0; color: #d7d3cc; font-size: 15px; }
+.session-status { display: flex; justify-content: center; gap: 24px; margin-top: 16px; color: #d7d3cc; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; }
+.session-status strong { color: var(--orange); font-size: 16px; }
 
-.game {
-    width: min(92vw, 760px);
-    margin: 0 auto;
-    padding: 34px 0 50px;
-}
+.board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.card { min-width: 0; aspect-ratio: 1.35 / 1; border: 0; border-radius: 9px; background: var(--cream); color: var(--ink); padding: 8px; font-family: inherit; font-size: clamp(11px, 2.5vw, 16px); font-weight: 800; cursor: pointer; overflow-wrap: anywhere; transition: background .12s ease, color .12s ease, transform .08s ease; }
+.card:hover { background: var(--cream-hover); }
+.card:active { transform: scale(.97); }
+.card.selected { background: var(--orange); color: white; }
 
+.solved-groups { display: grid; gap: 9px; margin-bottom: 9px; }
+.solved-group { padding: 18px 12px; border-radius: 9px; color: var(--ink); text-align: center; }
+.solved-group:nth-child(1) { background: var(--group-1); }
+.solved-group:nth-child(2) { background: var(--group-2); }
+.solved-group:nth-child(3) { background: var(--group-3); }
+.solved-group:nth-child(4) { background: var(--group-4); }
+.solved-group strong { display: block; margin-bottom: 7px; font-size: 18px; font-weight: 900; }
+.solved-group span { font-size: 14px; }
+.solved-group.revealed-group { background: #1b1b1b; color: var(--white); border: 2px solid var(--orange); }
 
-/* HEADER */
+.mistakes { margin: 27px 0 18px; color: #dedad3; text-align: center; font-size: 15px; }
+.mistake-dot { display: inline-block; width: 12px; height: 12px; margin-left: 6px; border-radius: 50%; background: #aaa; }
 
-header {
-    text-align: center;
-    margin-bottom: 32px;
-}
+.controls { display: flex; justify-content: center; gap: 10px; }
+.controls button { border: 1.5px solid var(--white); border-radius: 25px; background: transparent; color: var(--white); padding: 11px 19px; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer; transition: background .12s ease, color .12s ease, transform .08s ease; }
+.controls button:hover { background: var(--white); color: var(--black); }
+.controls button:active { transform: scale(.96); }
+.controls .primary { border-color: var(--orange); background: var(--orange); color: white; }
+.controls .primary:hover { background: #ea5a39; color: white; }
 
-h1 {
-    margin: 0;
-    color: var(--white);
-    font-size: clamp(30px, 6vw, 48px);
-    line-height: 0.95;
-    letter-spacing: -2px;
-    font-weight: 900;
-}
-
-h1 span {
-    color: var(--orange);
-}
-
-header p {
-    margin: 13px 0 0;
-    color: #d7d3cc;
-    font-size: 15px;
-}
-
-
-/* BOARD */
-
-.board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 9px;
-}
-
-.card {
-    min-width: 0;
-    aspect-ratio: 1.35 / 1;
-
-    border: 0;
-    border-radius: 9px;
-
-    background: var(--cream);
-    color: var(--ink);
-
-    padding: 8px;
-
-    font-family: inherit;
-    font-size: clamp(11px, 2.5vw, 16px);
-    font-weight: 800;
-
-    cursor: pointer;
-    overflow-wrap: anywhere;
-
-    transition:
-        background 0.12s ease,
-        color 0.12s ease,
-        transform 0.08s ease;
-}
-
-.card:hover {
-    background: var(--cream-hover);
-}
-
-.card:active {
-    transform: scale(0.97);
-}
-
-.card.selected {
-    background: var(--orange);
-    color: white;
-}
-
-
-/* SOLVED GROUPS */
-
-.solved-groups {
-    display: grid;
-    gap: 9px;
-    margin-bottom: 9px;
-}
-
-.solved-group {
-    padding: 18px 12px;
-    border-radius: 9px;
-
-    color: var(--ink);
-    text-align: center;
-}
-
-.solved-group:nth-child(1) {
-    background: var(--group-1);
-}
-
-.solved-group:nth-child(2) {
-    background: var(--group-2);
-}
-
-.solved-group:nth-child(3) {
-    background: var(--group-3);
-}
-
-.solved-group:nth-child(4) {
-    background: var(--group-4);
-}
-
-.solved-group strong {
-    display: block;
-    margin-bottom: 7px;
-
-    font-size: 18px;
-    font-weight: 900;
-}
-
-.solved-group span {
-    font-size: 14px;
-}
-
-
-/* MISTAKES */
-
-.mistakes {
-    margin: 27px 0 18px;
-
-    color: #dedad3;
-    text-align: center;
-    font-size: 15px;
-}
-
-.mistake-dot {
-    display: inline-block;
-
-    width: 12px;
-    height: 12px;
-
-    margin-left: 6px;
-
-    border-radius: 50%;
-    background: #aaa;
-}
-
-
-/* CONTROLS */
-
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.controls button {
-    border: 1.5px solid var(--white);
-    border-radius: 25px;
-
-    background: transparent;
-    color: var(--white);
-
-    padding: 11px 19px;
-
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition:
-        background 0.12s ease,
-        color 0.12s ease,
-        transform 0.08s ease;
-}
-
-.controls button:hover {
-    background: var(--white);
-    color: var(--black);
-}
-
-.controls button:active {
-    transform: scale(0.96);
-}
-
-.controls .primary {
-    border-color: var(--orange);
-    background: var(--orange);
-    color: white;
-}
-
-.controls .primary:hover {
-    background: #ea5a39;
-    color: white;
-}
-
-
-/* MESSAGE */
-
-.message {
-    min-height: 28px;
-    margin-top: 19px;
-
-    color: var(--white);
-    text-align: center;
-
-    font-size: 18px;
-    font-weight: 900;
-}
-
-.message:not(:empty) {
-    color: var(--orange);
-}
-
-
-/* MOBILE */
+.message { min-height: 28px; margin-top: 19px; color: var(--white); text-align: center; font-size: 18px; font-weight: 900; }
+.message:not(:empty) { color: var(--orange); }
 
 @media (max-width: 520px) {
-
-    .game {
-        width: 94vw;
-        padding-top: 60px;
-    }
-
-    header {
-        margin-bottom: 22px;
-    }
-
-    h1 {
-        font-size: clamp(27px, 9vw, 39px);
-        letter-spacing: -1.5px;
-    }
-
-    header p {
-        margin-top: 9px;
-        font-size: 13px;
-    }
-
-    .board {
-        gap: 5px;
-    }
-
-    .card {
-        aspect-ratio: 1.05 / 1;
-        padding: 5px;
-
-        border-radius: 7px;
-
-        font-size: clamp(9px, 3vw, 13px);
-    }
-
-    .solved-groups {
-        gap: 5px;
-    }
-
-    .solved-group {
-        padding: 13px 7px;
-        border-radius: 7px;
-    }
-
-    .solved-group strong {
-        margin-bottom: 4px;
-        font-size: 15px;
-    }
-
-    .solved-group span {
-        font-size: 11px;
-    }
-
-    .mistakes {
-        margin: 20px 0 15px;
-        font-size: 13px;
-    }
-
-    .controls {
-        gap: 6px;
-    }
-
-    .controls button {
-        padding: 9px 12px;
-        font-size: 11px;
-    }
-
-    .message {
-        margin-top: 15px;
-        font-size: 16px;
-    }
-}
-
-.solved-group.revealed-group {
-    background: #1b1b1b;
-    color: var(--white);
-    border: 2px solid var(--orange);
+    .game { width: 94vw; padding-top: 60px; }
+    header { margin-bottom: 22px; }
+    h1 { font-size: clamp(27px, 9vw, 39px); letter-spacing: -1.5px; }
+    header p { margin-top: 9px; font-size: 13px; }
+    .session-status { margin-top: 12px; gap: 18px; }
+    .board { gap: 5px; }
+    .card { aspect-ratio: 1.05 / 1; padding: 5px; border-radius: 7px; font-size: clamp(9px, 3vw, 13px); }
+    .solved-groups { gap: 5px; }
+    .solved-group { padding: 13px 7px; border-radius: 7px; }
+    .solved-group strong { margin-bottom: 4px; font-size: 15px; }
+    .solved-group span { font-size: 11px; }
+    .mistakes { margin: 20px 0 15px; font-size: 13px; }
+    .controls { gap: 6px; flex-wrap: wrap; }
+    .controls button { padding: 9px 12px; font-size: 11px; }
+    .message { margin-top: 15px; font-size: 16px; }
 }
