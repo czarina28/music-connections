@@ -163,5 +163,60 @@ const PUZZLES = [
             { connection: "FAMOUS KEYBOARD PLAYERS", cards: ["Ray Manzarek", "Rick Wakeman", "Keith Emerson", "Tony Banks"] },
             { connection: "BANDS WITH FOOD IN THEIR NAMES", cards: ["Cream", "Bread", "Hot Chocolate", "The Cranberries"] }
         ]
+    },
+    {
+        id: 16,
+        title: "Puzzle 016",
+        difficulty: "easy",
+        groups: [
+            { connection: "THE DOORS SONGS", cards: ["Light My Fire", "People Are Strange", "Riders on the Storm", "Break on Through"] },
+            { connection: "ELTON JOHN SONGS", cards: ["Rocket Man", "Tiny Dancer", "Your Song", "Bennie and the Jets"] },
+            { connection: "FAMOUS GUITARISTS", cards: ["Jimi Hendrix", "Eric Clapton", "Jimmy Page", "Jeff Beck"] },
+            { connection: "BANDS WITH FAMILY WORDS IN THEIR NAMES", cards: ["Sister Sledge", "The Brothers Johnson", "Twisted Sister", "Scissor Sisters"] }
+        ]
+    },
+    {
+        id: 17,
+        title: "Puzzle 017",
+        difficulty: "easy",
+        groups: [
+            { connection: "ABBA SONGS", cards: ["Dancing Queen", "Waterloo", "Mamma Mia", "Take a Chance on Me"] },
+            { connection: "BRUCE SPRINGSTEEN SONGS", cards: ["Born to Run", "Thunder Road", "Dancing in the Dark", "Hungry Heart"] },
+            { connection: "FAMOUS MUSIC DUOS", cards: ["Simon & Garfunkel", "Hall & Oates", "Pet Shop Boys", "Eurythmics"] },
+            { connection: "BANDS WITH BODY PARTS IN THEIR NAMES", cards: ["Talking Heads", "The Flaming Lips", "Nine Inch Nails", "Bad Brains"] }
+        ]
+    },
+    {
+        id: 18,
+        title: "Puzzle 018",
+        difficulty: "easy",
+        groups: [
+            { connection: "PRINCE SONGS", cards: ["Purple Rain", "Kiss", "1999", "When Doves Cry"] },
+            { connection: "MADONNA SONGS", cards: ["Like a Prayer", "Vogue", "Material Girl", "Holiday"] },
+            { connection: "FAMOUS FEMALE SOLO ARTISTS", cards: ["Kate Bush", "Joni Mitchell", "Patti Smith", "Carole King"] },
+            { connection: "BANDS WITH WEATHER IN THEIR NAMES", cards: ["Weather Report", "The Lightning Seeds", "Snow Patrol", "Hurricane"] }
+        ]
+    },
+    {
+        id: 19,
+        title: "Puzzle 019",
+        difficulty: "easy",
+        groups: [
+            { connection: "THE ROLLING STONES ALBUMS", cards: ["Sticky Fingers", "Let It Bleed", "Beggars Banquet", "Some Girls"] },
+            { connection: "BOB DYLAN SONGS", cards: ["Like a Rolling Stone", "Blowin' in the Wind", "Tangled Up in Blue", "Subterranean Homesick Blues"] },
+            { connection: "FAMOUS MUSIC PRODUCERS", cards: ["George Martin", "Quincy Jones", "Phil Spector", "Brian Eno"] },
+            { connection: "BANDS WITH ROYALTY IN THEIR NAMES", cards: ["Queen", "King Crimson", "Queens of the Stone Age", "Kings of Leon"] }
+        ]
+    },
+    {
+        id: 20,
+        title: "Puzzle 020",
+        difficulty: "easy",
+        groups: [
+            { connection: "DEPECHE MODE SONGS", cards: ["Enjoy the Silence", "Personal Jesus", "People Are People", "Just Can't Get Enough"] },
+            { connection: "DAVID BOWIE SONGS", cards: ["Changes", "Heroes", "Life on Mars?", "Rebel Rebel"] },
+            { connection: "FAMOUS WOMEN IN BANDS", cards: ["Stevie Nicks", "Debbie Harry", "Tina Weymouth", "Christine McVie"] },
+            { connection: "BANDS WITH GEOGRAPHIC DIRECTIONS IN THEIR NAMES", cards: ["East 17", "North Mississippi Allstars", "Westlife", "Southside Johnny and the Asbury Jukes"] }
+        ]
     }
 ];
