@@ -1,46 +1,7 @@
-const puzzle = [
-    {
-        connection: "YARDBIRDS GUITARISTS",
-        explanation: "Guitarists who played with The Yardbirds",
-        cards: [
-            "Eric Clapton",
-            "Jeff Beck",
-            "Jimmy Page",
-            "Top Topham"
-        ]
-    },
-    {
-        connection: "VELVET UNDERGROUND",
-        explanation: "Members of The Velvet Underground",
-        cards: [
-            "Lou Reed",
-            "John Cale",
-            "Moe Tucker",
-            "Sterling Morrison"
-        ]
-    },
-    {
-        connection: "BOWIE PERSONAS",
-        explanation: "Personas associated with David Bowie",
-        cards: [
-            "Ziggy Stardust",
-            "Aladdin Sane",
-            "Thin White Duke",
-            "Major Tom"
-        ]
-    },
-    {
-        connection: "WOODSTOCK PERFORMERS",
-        explanation: "Artists who performed at Woodstock in 1969",
-        cards: [
-            "Janis Joplin",
-            "Jimi Hendrix",
-            "Joe Cocker",
-            "Richie Havens"
-        ]
-    }
-];
+let currentPuzzleIndex =
+    Math.floor(Math.random() * PUZZLES.length);
 
+let puzzle = PUZZLES[currentPuzzleIndex].groups;
 let remainingCards = puzzle.flatMap(group => group.cards);
 let selected = [];
 let solved = [];
@@ -143,9 +104,13 @@ function submitGuess() {
     render();
 }
 
-function showSolvedGroup(group) {
+function showSolvedGroup(group, wasSolved = true) {
     const div = document.createElement("div");
     div.className = "solved-group";
+
+    if (!wasSolved) {
+        div.classList.add("revealed-group");
+    }
 
     div.innerHTML = `
         <strong>${group.connection}</strong>
@@ -158,7 +123,7 @@ function showSolvedGroup(group) {
 function revealRemainingGroups() {
     puzzle.forEach(group => {
         if (!solved.includes(group)) {
-            showSolvedGroup(group);
+            showSolvedGroup(group, false);
         }
     });
 
@@ -181,3 +146,29 @@ document.getElementById("shuffleBtn").addEventListener("click", () => {
 
 shuffle(remainingCards);
 render();
+
+document.getElementById("newGameBtn").addEventListener("click", () => {
+    let nextIndex;
+
+    do {
+        nextIndex = Math.floor(Math.random() * PUZZLES.length);
+    } while (
+        PUZZLES.length > 1 &&
+        nextIndex === currentPuzzleIndex
+    );
+
+    currentPuzzleIndex = nextIndex;
+    puzzle = PUZZLES[currentPuzzleIndex].groups;
+
+    remainingCards = puzzle.flatMap(group => group.cards);
+    selected = [];
+    solved = [];
+    mistakesRemaining = 4;
+    gameOver = false;
+
+    solvedGroups.innerHTML = "";
+    message.textContent = "";
+
+    shuffle(remainingCards);
+    render();
+});
