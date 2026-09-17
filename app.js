@@ -1,4 +1,4 @@
-// Music Connections v1.1 freemium progression layer
+﻿// Music Connections v1.1 freemium progression layer
 const FREE_PUZZLE_SEQUENCE = [6, 22, 26, 14, 33, 43, 38, 29, 47, 50];
 const FREE_PUZZLE_IDS = new Set(FREE_PUZZLE_SEQUENCE);
 const PROGRESS_KEY = "musicConnectionsCompletedPuzzleIds";
@@ -196,12 +196,14 @@ function showFreeCollectionComplete(statusText = "") {
     solvedGroups.innerHTML = "";
     mistakes.innerHTML = "";
 
+    mistakes.parentElement.style.display = "none";
+
     const price = storeProduct?.priceString || "";
     const nativeStoreAvailable = !!window.MusicConnectionsStore;
 
     message.innerHTML = `
         <div class="paywall">
-            <div class="paywall-title">YOU?VE COMPLETED THE FREE COLLECTION</div>
+            <div class="paywall-title">YOU'VE COMPLETED THE FREE COLLECTION</div>
             <div class="paywall-copy"><strong>64 more puzzles await.</strong></div>
             ${
                 nativeStoreAvailable
@@ -227,6 +229,7 @@ function showFreeCollectionComplete(statusText = "") {
     newGameBtn.style.display = "none";
 }
 function render() {
+    mistakes.parentElement.style.display = "";
     if (freeCollectionComplete) {
         showFreeCollectionComplete();
         return;
@@ -295,7 +298,7 @@ function submitGuess() {
             roundOver = true;
             completedPuzzleIds.add(PUZZLES[currentPuzzleIndex].id);
             saveProgress();
-            message.textContent = `ROUND COMPLETE — +${pointsEarned} ${pointsEarned === 1 ? "POINT" : "POINTS"}`;
+            message.textContent = `ROUND COMPLETE â€” +${pointsEarned} ${pointsEarned === 1 ? "POINT" : "POINTS"}`;
 
             if (!hasFullGame && getNextFreePuzzleIndex() === null) {
                 showFreeCollectionComplete();
@@ -310,7 +313,7 @@ function submitGuess() {
         if (mistakesRemaining === 0) {
             roundOver = true;
             roundFailed = true;
-            message.textContent = "ROUND OVER — +0 POINTS";
+            message.textContent = "ROUND OVER â€” +0 POINTS";
             revealRemainingGroups();
         }
     }
@@ -321,7 +324,7 @@ function showSolvedGroup(group, wasSolved = true) {
     const div = document.createElement("div");
     div.className = "solved-group";
     if (!wasSolved) div.classList.add("revealed-group");
-    div.innerHTML = `<strong>${group.connection}</strong><span>${group.cards.join(" · ")}</span>`;
+    div.innerHTML = `<strong>${group.connection}</strong><span>${group.cards.join(" Â· ")}</span>`;
     solvedGroups.appendChild(div);
 }
 
@@ -388,3 +391,6 @@ else {
 // Ask StoreKit for the current Apple product and existing entitlement.
 // Browser/GitHub Pages builds continue to work as the free edition.
 initializeStore();
+
+
+
