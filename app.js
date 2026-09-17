@@ -9,21 +9,14 @@ let storeProduct = null;
 let storeReady = false;
 let purchaseBusy = false;
 
-function storeTransactions(result) {
-    if (Array.isArray(result)) return result;
-    if (Array.isArray(result?.purchases)) return result.purchases;
-    if (Array.isArray(result?.transactions)) return result.transactions;
-    return [];
-}
-
 function ownsFullGame(result) {
-    return storeTransactions(result).some(
-        transaction =>
-            transaction.productIdentifier === window.MusicConnectionsStore?.PRODUCT_ID &&
-            !transaction.revocationDate
+    const purchases = result?.purchases || [];
+
+    return purchases.some(
+        purchase =>
+            purchase.productIdentifier === window.MusicConnectionsStore?.PRODUCT_ID
     );
 }
-
 async function initializeStore() {
     const store = window.MusicConnectionsStore;
     if (!store) return;
@@ -54,14 +47,13 @@ async function purchaseFullGame() {
     if (purchaseBusy || !window.MusicConnectionsStore) return;
 
     purchaseBusy = true;
-    showFreeCollectionComplete("Opening App Store?");
+    showFreeCollectionComplete("Opening App Store...");
 
     try {
-        await window.MusicConnectionsStore.purchaseFullGame();
-        const purchases = await window.MusicConnectionsStore.getPurchases();
+        const transaction = await window.MusicConnectionsStore.purchaseFullGame();
 
-        if (!ownsFullGame(purchases)) {
-            throw new Error("Purchase completed but entitlement was not found.");
+        if (transaction?.productIdentifier !== window.MusicConnectionsStore.PRODUCT_ID) {
+            throw new Error("Purchase returned an unexpected product.");
         }
 
         hasFullGame = true;
@@ -80,7 +72,7 @@ async function restoreFullGame() {
     if (purchaseBusy || !window.MusicConnectionsStore) return;
 
     purchaseBusy = true;
-    showFreeCollectionComplete("Checking purchases?");
+    showFreeCollectionComplete("Checking purchases...");
 
     try {
         const purchases = await window.MusicConnectionsStore.restorePurchases();
@@ -391,6 +383,8 @@ else {
 // Ask StoreKit for the current Apple product and existing entitlement.
 // Browser/GitHub Pages builds continue to work as the free edition.
 initializeStore();
+
+
 
 
 
