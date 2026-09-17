@@ -1,14 +1,26 @@
+// Music Connections v1.1 freemium entitlement layer
+// Temporary free set: replace these IDs after the 10 free puzzles are curated.
+const FREE_PUZZLE_IDS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+// StoreKit will become the source of truth for this value in the iOS app.
+// Until StoreKit is wired in, the browser build intentionally behaves as the free edition.
+let hasFullGame = false;
+
 function puzzleHasUniqueCards(puzzleEntry) {
     const cards = puzzleEntry.groups.flatMap(group => group.cards);
     return cards.length === 16 && new Set(cards).size === 16;
 }
 
+function puzzleIsEntitled(puzzleEntry) {
+    return hasFullGame || FREE_PUZZLE_IDS.has(puzzleEntry.id);
+}
+
 const VALID_PUZZLE_INDEXES = PUZZLES
-    .map((puzzleEntry, index) => puzzleHasUniqueCards(puzzleEntry) ? index : -1)
+    .map((puzzleEntry, index) => puzzleHasUniqueCards(puzzleEntry) && puzzleIsEntitled(puzzleEntry) ? index : -1)
     .filter(index => index !== -1);
 
 if (VALID_PUZZLE_INDEXES.length === 0) {
-    throw new Error("No valid puzzles available: every puzzle must contain 16 unique cards.");
+    throw new Error("No entitled valid puzzles available: every puzzle must contain 16 unique cards.");
 }
 
 let currentPuzzleIndex = VALID_PUZZLE_INDEXES[Math.floor(Math.random() * VALID_PUZZLE_INDEXES.length)];
