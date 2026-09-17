@@ -108,5 +108,170 @@ const PUZZLES = [
             { connection: "FAMOUS COVER SONGS", cards: ["All Along the Watchtower", "Hallelujah", "Respect", "Hurt"] },
             { connection: "BANDS BEGINNING WITH THE", cards: ["The Kinks", "The Doors", "The Clash", "The Smiths"] }
         ]
+    },
+    {
+        id: 11,
+        title: "Puzzle 011",
+        difficulty: "easy",
+        groups: [
+            { connection: "BRITISH INVASION BANDS", cards: ["The Beatles", "The Rolling Stones", "The Kinks", "The Who"] },
+            { connection: "ARTISTS KNOWN BY ONE NAME", cards: ["Bowie", "Prince", "Madonna", "Cher"] },
+            { connection: "SEATTLE GRUNGE BANDS", cards: ["Nirvana", "Pearl Jam", "Soundgarden", "Alice in Chains"] },
+            { connection: "EARLY PUNK BANDS", cards: ["Ramones", "The Clash", "Sex Pistols", "The Damned"] }
+        ]
+    },
+    {
+        id: 12,
+        title: "Puzzle 012",
+        difficulty: "easy",
+        groups: [
+            { connection: "QUEEN SONGS", cards: ["Bohemian Rhapsody", "Somebody to Love", "Killer Queen", "We Will Rock You"] },
+            { connection: "U2 ALBUMS", cards: ["War", "The Joshua Tree", "Achtung Baby", "Zooropa"] },
+            { connection: "FAMOUS FRONTMEN", cards: ["Mick Jagger", "Robert Plant", "Roger Daltrey", "Freddie Mercury"] },
+            { connection: "BANDS WITH ANIMAL NAMES", cards: ["The Byrds", "The Monkees", "Eagles", "Scorpions"] }
+        ]
+    },
+    {
+        id: 13,
+        title: "Puzzle 013",
+        difficulty: "easy",
+        groups: [
+            { connection: "THE POLICE SONGS", cards: ["Roxanne", "Message in a Bottle", "Every Breath You Take", "Walking on the Moon"] },
+            { connection: "REM ALBUMS", cards: ["Murmur", "Reckoning", "Document", "Green"] },
+            { connection: "FAMOUS BASS PLAYERS", cards: ["Paul McCartney", "John Entwistle", "Geddy Lee", "John Paul Jones"] },
+            { connection: "BANDS WITH NUMBERS IN THEIR NAMES", cards: ["U2", "Blink-182", "Maroon 5", "UB40"] }
+        ]
+    },
+    {
+        id: 14,
+        title: "Puzzle 014",
+        difficulty: "easy",
+        groups: [
+            { connection: "BLONDIE SONGS", cards: ["Heart of Glass", "Call Me", "One Way or Another", "Rapture"] },
+            { connection: "THE SMITHS SONGS", cards: ["This Charming Man", "How Soon Is Now?", "There Is a Light That Never Goes Out", "Panic"] },
+            { connection: "FEMALE ROCK VOCALISTS", cards: ["Debbie Harry", "Patti Smith", "Chrissie Hynde", "Siouxsie Sioux"] },
+            { connection: "BANDS WITH COLORS IN THEIR NAMES", cards: ["Pink Floyd", "Deep Purple", "Black Sabbath", "Simply Red"] }
+        ]
+    },
+    {
+        id: 15,
+        title: "Puzzle 015",
+        difficulty: "easy",
+        groups: [
+            { connection: "TALKING HEADS SONGS", cards: ["Psycho Killer", "Once in a Lifetime", "Burning Down the House", "Road to Nowhere"] },
+            { connection: "THE CLASH SONGS", cards: ["London Calling", "Should I Stay or Should I Go", "Train in Vain", "Rock the Casbah"] },
+            { connection: "FAMOUS KEYBOARD PLAYERS", cards: ["Ray Manzarek", "Rick Wakeman", "Keith Emerson", "Tony Banks"] },
+            { connection: "BANDS WITH FOOD IN THEIR NAMES", cards: ["Cream", "Bread", "Hot Chocolate", "The Cranberries"] }
+        ]
+    },
+    {
+        id: 16,
+        title: "Puzzle 016",
+        difficulty: "easy",
+        groups: [
+            { connection: "THE DOORS SONGS", cards: ["Light My Fire", "People Are Strange", "Riders on the Storm", "Break on Through"] },
+            { connection: "ELTON JOHN SONGS", cards: ["Rocket Man", "Tiny Dancer", "Your Song", "Bennie and the Jets"] },
+            { connection: "FAMOUS GUITARISTS", cards: ["Jimi Hendrix", "Eric Clapton", "Jimmy Page", "Jeff Beck"] },
+            { connection: "BANDS WITH FAMILY WORDS IN THEIR NAMES", cards: ["Sister Sledge", "The Brothers Johnson", "Twisted Sister", "Scissor Sisters"] }
+        ]
+    },
+    {
+        id: 17,
+        title: "Puzzle 017",
+        difficulty: "easy",
+        groups: [
+            { connection: "ABBA SONGS", cards: ["Dancing Queen", "Waterloo", "Mamma Mia", "Take a Chance on Me"] },
+            { connection: "BRUCE SPRINGSTEEN SONGS", cards: ["Born to Run", "Thunder Road", "Dancing in the Dark", "Hungry Heart"] },
+            { connection: "FAMOUS MUSIC DUOS", cards: ["Simon & Garfunkel", "Hall & Oates", "Pet Shop Boys", "Eurythmics"] },
+            { connection: "BANDS WITH BODY PARTS IN THEIR NAMES", cards: ["Talking Heads", "The Flaming Lips", "Nine Inch Nails", "Bad Brains"] }
+        ]
+    },
+    {
+        id: 18,
+        title: "Puzzle 018",
+        difficulty: "easy",
+        groups: [
+            { connection: "PRINCE SONGS", cards: ["Purple Rain", "Kiss", "1999", "When Doves Cry"] },
+            { connection: "MADONNA SONGS", cards: ["Like a Prayer", "Vogue", "Material Girl", "Holiday"] },
+            { connection: "FAMOUS FEMALE SOLO ARTISTS", cards: ["Kate Bush", "Joni Mitchell", "Patti Smith", "Carole King"] },
+            { connection: "BANDS WITH WEATHER IN THEIR NAMES", cards: ["Weather Report", "The Lightning Seeds", "Snow Patrol", "Hurricane"] }
+        ]
+    },
+    {
+        id: 19,
+        title: "Puzzle 019",
+        difficulty: "easy",
+        groups: [
+            { connection: "THE ROLLING STONES ALBUMS", cards: ["Sticky Fingers", "Let It Bleed", "Beggars Banquet", "Some Girls"] },
+            { connection: "BOB DYLAN SONGS", cards: ["Like a Rolling Stone", "Blowin' in the Wind", "Tangled Up in Blue", "Subterranean Homesick Blues"] },
+            { connection: "FAMOUS MUSIC PRODUCERS", cards: ["George Martin", "Quincy Jones", "Phil Spector", "Brian Eno"] },
+            { connection: "BANDS WITH ROYALTY IN THEIR NAMES", cards: ["Queen", "King Crimson", "Queens of the Stone Age", "Kings of Leon"] }
+        ]
+    },
+    {
+        id: 20,
+        title: "Puzzle 020",
+        difficulty: "easy",
+        groups: [
+            { connection: "DEPECHE MODE SONGS", cards: ["Enjoy the Silence", "Personal Jesus", "People Are People", "Just Can't Get Enough"] },
+            { connection: "DAVID BOWIE SONGS", cards: ["Changes", "Heroes", "Life on Mars?", "Rebel Rebel"] },
+            { connection: "FAMOUS WOMEN IN BANDS", cards: ["Stevie Nicks", "Debbie Harry", "Tina Weymouth", "Christine McVie"] },
+            { connection: "BANDS WITH GEOGRAPHIC DIRECTIONS IN THEIR NAMES", cards: ["East 17", "North Mississippi Allstars", "Westlife", "Southside Johnny and the Asbury Jukes"] }
+        ]
+    },
+    {
+        id: 21,
+        title: "Puzzle 021",
+        difficulty: "easy",
+        groups: [
+            { connection: "ELVIS PRESLEY SONGS", cards: ["Hound Dog", "Jailhouse Rock", "Suspicious Minds", "Heartbreak Hotel"] },
+            { connection: "MICHAEL JACKSON ALBUMS", cards: ["Off the Wall", "Thriller", "Bad", "Dangerous"] },
+            { connection: "MOTOWN ACTS", cards: ["The Supremes", "The Temptations", "Marvin Gaye", "Smokey Robinson"] },
+            { connection: "FAMOUS ROCK TRIOS", cards: ["Cream", "Rush", "The Police", "Nirvana"] }
+        ]
+    },
+    {
+        id: 22,
+        title: "Puzzle 022",
+        difficulty: "easy",
+        groups: [
+            { connection: "ARETHA FRANKLIN SONGS", cards: ["Respect", "Think", "Chain of Fools", "Rock Steady"] },
+            { connection: "BILLY JOEL SONGS", cards: ["Piano Man", "Uptown Girl", "We Didn't Start the Fire", "New York State of Mind"] },
+            { connection: "FAMOUS SIBLING BANDS", cards: ["The Beach Boys", "Bee Gees", "The Kinks", "Oasis"] },
+            { connection: "BANDS WITH VEHICLES IN THEIR NAMES", cards: ["The Cars", "Train", "REO Speedwagon", "Jefferson Airplane"] }
+        ]
+    },
+    {
+        id: 23,
+        title: "Puzzle 023",
+        difficulty: "easy",
+        groups: [
+            { connection: "NIRVANA SONGS", cards: ["Smells Like Teen Spirit", "Come as You Are", "Lithium", "Heart-Shaped Box"] },
+            { connection: "TOM PETTY SONGS", cards: ["Free Fallin'", "I Won't Back Down", "Running Down a Dream", "You Don't Know How It Feels"] },
+            { connection: "NEW WAVE BANDS", cards: ["The Cars", "Blondie", "Talking Heads", "The B-52's"] },
+            { connection: "BANDS WITH A PERSON'S NAME", cards: ["Jethro Tull", "Lynyrd Skynyrd", "Franz Ferdinand", "Molly Hatchet"] }
+        ]
+    },
+    {
+        id: 24,
+        title: "Puzzle 024",
+        difficulty: "easy",
+        groups: [
+            { connection: "STEVIE WONDER SONGS", cards: ["Superstition", "Sir Duke", "Higher Ground", "Isn't She Lovely"] },
+            { connection: "RADIOHEAD ALBUMS", cards: ["The Bends", "OK Computer", "Kid A", "In Rainbows"] },
+            { connection: "FAMOUS SINGER-SONGWRITERS", cards: ["Carole King", "James Taylor", "Joni Mitchell", "Cat Stevens"] },
+            { connection: "BANDS WITH ANIMALS IN THEIR NAMES", cards: ["Arctic Monkeys", "Counting Crows", "Def Leppard", "The Turtles"] }
+        ]
+    },
+    {
+        id: 25,
+        title: "Puzzle 025",
+        difficulty: "medium",
+        groups: [
+            { connection: "THE BEATLES SONGS", cards: ["Come Together", "Help!", "Yesterday", "Paperback Writer"] },
+            { connection: "PAT BENATAR SONGS", cards: ["Love Is a Battlefield", "Hit Me with Your Best Shot", "Heartbreaker", "We Belong"] },
+            { connection: "MANCHESTER BANDS", cards: ["The Stone Roses", "Oasis", "Joy Division", "Happy Mondays"] },
+            { connection: "ARTISTS WHO LEFT FAMOUS BANDS FOR SOLO CAREERS", cards: ["Sting", "Peter Gabriel", "George Michael", "Diana Ross"] }
+        ]
     }
 ];
