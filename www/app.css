@@ -73,3 +73,55 @@ header p { margin: 13px 0 0; color: #d7d3cc; font-size: 15px; }
     .controls button { padding: 9px 12px; font-size: 11px; }
     .message { margin-top: 15px; font-size: 16px; }
 }
+/* Full Game unlock */
+.paywall {
+    margin: 24px auto 0;
+    max-width: 520px;
+    padding: 28px 22px;
+    border: 3px solid #101010;
+    text-align: center;
+}
+
+.paywall-title {
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+}
+
+.paywall-copy {
+    margin-bottom: 22px;
+    font-size: 1.05rem;
+}
+
+.paywall-buy {
+    display: block;
+    width: 100%;
+    margin: 0 auto 12px;
+    padding: 14px 18px;
+    font-weight: 900;
+}
+
+.paywall-restore {
+    border: 0;
+    background: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 8px 12px;
+}
+
+.paywall-status {
+    margin-top: 14px;
+    font-weight: 700;
+}
+
+.paywall-web {
+    font-weight: 700;
+    padding: 12px;
+}
+
+.paywall button:disabled {
+    opacity: 0.55;
+    cursor: default;
+}

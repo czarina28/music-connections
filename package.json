@@ -22,5 +22,8 @@
     "@capacitor/core": "^8.5.1",
     "@capacitor/ios": "^8.5.1",
     "@capgo/native-purchases": "^8.7.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }

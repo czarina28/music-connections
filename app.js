@@ -3,9 +3,103 @@ const FREE_PUZZLE_SEQUENCE = [6, 22, 26, 14, 33, 43, 38, 29, 47, 50];
 const FREE_PUZZLE_IDS = new Set(FREE_PUZZLE_SEQUENCE);
 const PROGRESS_KEY = "musicConnectionsCompletedPuzzleIds";
 
-// StoreKit will become the source of truth for this value in the iOS app.
-// Until StoreKit is wired in, the browser build intentionally behaves as the free edition.
+// StoreKit is the source of truth for Full Game ownership on iOS.
 let hasFullGame = false;
+let storeProduct = null;
+let storeReady = false;
+let purchaseBusy = false;
+
+function storeTransactions(result) {
+    if (Array.isArray(result)) return result;
+    if (Array.isArray(result?.purchases)) return result.purchases;
+    if (Array.isArray(result?.transactions)) return result.transactions;
+    return [];
+}
+
+function ownsFullGame(result) {
+    return storeTransactions(result).some(
+        transaction =>
+            transaction.productIdentifier === window.MusicConnectionsStore?.PRODUCT_ID &&
+            !transaction.revocationDate
+    );
+}
+
+async function initializeStore() {
+    const store = window.MusicConnectionsStore;
+    if (!store) return;
+
+    try {
+        const productResult = await store.getProduct();
+        storeProduct = productResult?.product || productResult || null;
+
+        const purchases = await store.getPurchases();
+        hasFullGame = ownsFullGame(purchases);
+        storeReady = true;
+
+        if (hasFullGame && freeCollectionComplete) {
+            freeCollectionComplete = false;
+            roundNumber = completedPuzzleIds.size + 1;
+            loadRound(chooseNextPuzzleIndex());
+        } else if (freeCollectionComplete) {
+            showFreeCollectionComplete();
+        }
+    } catch (error) {
+        console.error("StoreKit initialization failed:", error);
+        storeReady = false;
+        if (freeCollectionComplete) showFreeCollectionComplete();
+    }
+}
+
+async function purchaseFullGame() {
+    if (purchaseBusy || !window.MusicConnectionsStore) return;
+
+    purchaseBusy = true;
+    showFreeCollectionComplete("Opening App Store?");
+
+    try {
+        await window.MusicConnectionsStore.purchaseFullGame();
+        const purchases = await window.MusicConnectionsStore.getPurchases();
+
+        if (!ownsFullGame(purchases)) {
+            throw new Error("Purchase completed but entitlement was not found.");
+        }
+
+        hasFullGame = true;
+        freeCollectionComplete = false;
+        roundNumber = completedPuzzleIds.size + 1;
+        loadRound(chooseNextPuzzleIndex());
+    } catch (error) {
+        console.error("Purchase failed or cancelled:", error);
+        showFreeCollectionComplete("Purchase not completed.");
+    } finally {
+        purchaseBusy = false;
+    }
+}
+
+async function restoreFullGame() {
+    if (purchaseBusy || !window.MusicConnectionsStore) return;
+
+    purchaseBusy = true;
+    showFreeCollectionComplete("Checking purchases?");
+
+    try {
+        const purchases = await window.MusicConnectionsStore.restorePurchases();
+
+        if (ownsFullGame(purchases)) {
+            hasFullGame = true;
+            freeCollectionComplete = false;
+            roundNumber = completedPuzzleIds.size + 1;
+            loadRound(chooseNextPuzzleIndex());
+        } else {
+            showFreeCollectionComplete("No Full Game purchase found.");
+        }
+    } catch (error) {
+        console.error("Restore failed:", error);
+        showFreeCollectionComplete("Could not restore purchases.");
+    } finally {
+        purchaseBusy = false;
+    }
+}
 
 function puzzleHasUniqueCards(puzzleEntry) {
     const cards = puzzleEntry.groups.flatMap(group => group.cards);
@@ -95,20 +189,43 @@ function shuffle(array) {
     }
 }
 
-function showFreeCollectionComplete() {
+function showFreeCollectionComplete(statusText = "") {
     freeCollectionComplete = true;
     roundOver = true;
     board.innerHTML = "";
     solvedGroups.innerHTML = "";
     mistakes.innerHTML = "";
-    message.innerHTML = "YOU’VE COMPLETED THE FREE COLLECTION<br><strong>64 more puzzles await.</strong><br>UNLOCK FULL GAME — €2.99";
+
+    const price = storeProduct?.priceString || "";
+    const nativeStoreAvailable = !!window.MusicConnectionsStore;
+
+    message.innerHTML = `
+        <div class="paywall">
+            <div class="paywall-title">YOU?VE COMPLETED THE FREE COLLECTION</div>
+            <div class="paywall-copy"><strong>64 more puzzles await.</strong></div>
+            ${
+                nativeStoreAvailable
+                    ? `<button id="unlockFullGameBtn" class="primary paywall-buy" ${purchaseBusy ? "disabled" : ""}>
+                           UNLOCK FULL GAME${price ? ` ? ${price}` : ""}
+                       </button>
+                       <button id="restorePurchasesBtn" class="paywall-restore" ${purchaseBusy ? "disabled" : ""}>
+                           RESTORE PURCHASES
+                       </button>`
+                    : `<div class="paywall-web">Full Game available in the iPhone app.</div>`
+            }
+            ${statusText ? `<div class="paywall-status">${statusText}</div>` : ""}
+        </div>
+    `;
+
+    document.getElementById("unlockFullGameBtn")?.addEventListener("click", purchaseFullGame);
+    document.getElementById("restorePurchasesBtn")?.addEventListener("click", restoreFullGame);
+
     shuffleBtn.style.display = "none";
     deselectBtn.style.display = "none";
     submitBtn.style.display = "none";
     nextRoundBtn.style.display = "none";
     newGameBtn.style.display = "none";
 }
-
 function render() {
     if (freeCollectionComplete) {
         showFreeCollectionComplete();
@@ -267,3 +384,7 @@ else {
     shuffle(remainingCards);
     render();
 }
+
+// Ask StoreKit for the current Apple product and existing entitlement.
+// Browser/GitHub Pages builds continue to work as the free edition.
+initializeStore();
