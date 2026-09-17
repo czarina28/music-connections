@@ -1,6 +1,7 @@
-// Music Connections v1.1 freemium entitlement layer
-// Temporary free set: replace these IDs after the 10 free puzzles are curated.
-const FREE_PUZZLE_IDS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+// Music Connections v1.1 freemium progression layer
+const FREE_PUZZLE_SEQUENCE = [6, 22, 26, 14, 33, 43, 38, 29, 47, 50];
+const FREE_PUZZLE_IDS = new Set(FREE_PUZZLE_SEQUENCE);
+const PROGRESS_KEY = "musicConnectionsCompletedPuzzleIds";
 
 // StoreKit will become the source of truth for this value in the iOS app.
 // Until StoreKit is wired in, the browser build intentionally behaves as the free edition.
@@ -11,27 +12,68 @@ function puzzleHasUniqueCards(puzzleEntry) {
     return cards.length === 16 && new Set(cards).size === 16;
 }
 
-function puzzleIsEntitled(puzzleEntry) {
-    return hasFullGame || FREE_PUZZLE_IDS.has(puzzleEntry.id);
+function loadCompletedPuzzleIds() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "[]");
+        return new Set(Array.isArray(saved) ? saved.filter(Number.isInteger) : []);
+    } catch {
+        return new Set();
+    }
+}
+
+let completedPuzzleIds = loadCompletedPuzzleIds();
+
+function saveProgress() {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify([...completedPuzzleIds]));
 }
 
 const VALID_PUZZLE_INDEXES = PUZZLES
-    .map((puzzleEntry, index) => puzzleHasUniqueCards(puzzleEntry) && puzzleIsEntitled(puzzleEntry) ? index : -1)
+    .map((puzzleEntry, index) => puzzleHasUniqueCards(puzzleEntry) ? index : -1)
     .filter(index => index !== -1);
 
+const VALID_INDEX_BY_ID = new Map(
+    VALID_PUZZLE_INDEXES.map(index => [PUZZLES[index].id, index])
+);
+
 if (VALID_PUZZLE_INDEXES.length === 0) {
-    throw new Error("No entitled valid puzzles available: every puzzle must contain 16 unique cards.");
+    throw new Error("No valid puzzles available: every puzzle must contain 16 unique cards.");
 }
 
-let currentPuzzleIndex = VALID_PUZZLE_INDEXES[Math.floor(Math.random() * VALID_PUZZLE_INDEXES.length)];
-let puzzle = PUZZLES[currentPuzzleIndex].groups;
+function getNextFreePuzzleIndex() {
+    const nextId = FREE_PUZZLE_SEQUENCE.find(id => !completedPuzzleIds.has(id));
+    return nextId === undefined ? null : VALID_INDEX_BY_ID.get(nextId) ?? null;
+}
+
+function getUnplayedFullPuzzleIndexes() {
+    return VALID_PUZZLE_INDEXES.filter(index => !completedPuzzleIds.has(PUZZLES[index].id));
+}
+
+function chooseRandomIndex(indexes) {
+    if (indexes.length === 0) return null;
+    return indexes[Math.floor(Math.random() * indexes.length)];
+}
+
+function chooseNextPuzzleIndex() {
+    if (!hasFullGame) return getNextFreePuzzleIndex();
+
+    const unplayed = getUnplayedFullPuzzleIndexes();
+    if (unplayed.length > 0) return chooseRandomIndex(unplayed);
+
+    // Once the entire collection has been completed, allow replaying the full library.
+    const alternatives = VALID_PUZZLE_INDEXES.filter(index => index !== currentPuzzleIndex);
+    return chooseRandomIndex(alternatives.length ? alternatives : VALID_PUZZLE_INDEXES);
+}
+
+let currentPuzzleIndex = hasFullGame ? chooseNextPuzzleIndex() : getNextFreePuzzleIndex();
+let puzzle = currentPuzzleIndex === null ? [] : PUZZLES[currentPuzzleIndex].groups;
 let remainingCards = puzzle.flatMap(group => group.cards);
 let selected = [];
 let solved = [];
 let mistakesRemaining = 4;
-let roundOver = false;
+let roundOver = currentPuzzleIndex === null;
 let roundFailed = false;
-let roundNumber = 1;
+let freeCollectionComplete = !hasFullGame && currentPuzzleIndex === null;
+let roundNumber = hasFullGame ? completedPuzzleIds.size + 1 : FREE_PUZZLE_SEQUENCE.filter(id => completedPuzzleIds.has(id)).length + 1;
 let score = 0;
 
 const board = document.getElementById("board");
@@ -53,7 +95,26 @@ function shuffle(array) {
     }
 }
 
+function showFreeCollectionComplete() {
+    freeCollectionComplete = true;
+    roundOver = true;
+    board.innerHTML = "";
+    solvedGroups.innerHTML = "";
+    mistakes.innerHTML = "";
+    message.innerHTML = "YOU’VE COMPLETED THE FREE COLLECTION<br><strong>64 more puzzles await.</strong><br>UNLOCK FULL GAME — €2.99";
+    shuffleBtn.style.display = "none";
+    deselectBtn.style.display = "none";
+    submitBtn.style.display = "none";
+    nextRoundBtn.style.display = "none";
+    newGameBtn.style.display = "none";
+}
+
 function render() {
+    if (freeCollectionComplete) {
+        showFreeCollectionComplete();
+        return;
+    }
+
     board.innerHTML = "";
     remainingCards.forEach(card => {
         const button = document.createElement("button");
@@ -71,7 +132,7 @@ function render() {
         mistakes.appendChild(dot);
     }
 
-    roundNumberDisplay.textContent = roundNumber;
+    roundNumberDisplay.textContent = hasFullGame ? roundNumber : `${Math.min(roundNumber, 10)}/10`;
     scoreDisplay.textContent = score;
 
     shuffleBtn.style.display = roundFailed ? "none" : "inline-block";
@@ -115,7 +176,14 @@ function submitGuess() {
             const pointsEarned = mistakesRemaining;
             score += pointsEarned;
             roundOver = true;
+            completedPuzzleIds.add(PUZZLES[currentPuzzleIndex].id);
+            saveProgress();
             message.textContent = `ROUND COMPLETE — +${pointsEarned} ${pointsEarned === 1 ? "POINT" : "POINTS"}`;
+
+            if (!hasFullGame && getNextFreePuzzleIndex() === null) {
+                showFreeCollectionComplete();
+                return;
+            }
         }
     } else {
         mistakesRemaining--;
@@ -147,17 +215,12 @@ function revealRemainingGroups() {
     remainingCards = [];
 }
 
-function chooseDifferentPuzzle() {
-    if (VALID_PUZZLE_INDEXES.length === 1) return VALID_PUZZLE_INDEXES[0];
-
-    let nextIndex;
-    do {
-        nextIndex = VALID_PUZZLE_INDEXES[Math.floor(Math.random() * VALID_PUZZLE_INDEXES.length)];
-    } while (nextIndex === currentPuzzleIndex);
-    return nextIndex;
-}
-
 function loadRound(nextIndex) {
+    if (nextIndex === null) {
+        showFreeCollectionComplete();
+        return;
+    }
+
     currentPuzzleIndex = nextIndex;
     puzzle = PUZZLES[currentPuzzleIndex].groups;
     remainingCards = puzzle.flatMap(group => group.cards);
@@ -166,6 +229,7 @@ function loadRound(nextIndex) {
     mistakesRemaining = 4;
     roundOver = false;
     roundFailed = false;
+    freeCollectionComplete = false;
     solvedGroups.innerHTML = "";
     message.textContent = "";
     shuffle(remainingCards);
@@ -174,13 +238,12 @@ function loadRound(nextIndex) {
 
 function startNextRound() {
     roundNumber++;
-    loadRound(chooseDifferentPuzzle());
+    loadRound(chooseNextPuzzleIndex());
 }
 
 function startNewGame() {
-    roundNumber = 1;
     score = 0;
-    loadRound(chooseDifferentPuzzle());
+    loadRound(currentPuzzleIndex);
 }
 
 submitBtn.addEventListener("click", submitGuess);
@@ -199,5 +262,8 @@ shuffleBtn.addEventListener("click", () => {
 nextRoundBtn.addEventListener("click", startNextRound);
 newGameBtn.addEventListener("click", startNewGame);
 
-shuffle(remainingCards);
-render();
+if (freeCollectionComplete) showFreeCollectionComplete();
+else {
+    shuffle(remainingCards);
+    render();
+}
