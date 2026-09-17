@@ -208,7 +208,7 @@ function showFreeCollectionComplete(statusText = "") {
             ${
                 nativeStoreAvailable
                     ? `<button id="unlockFullGameBtn" class="primary paywall-buy" ${purchaseBusy ? "disabled" : ""}>
-                           UNLOCK FULL GAME${price ? ` ? ${price}` : ""}
+                           UNLOCK FULL GAME${price ? ` - ${price}` : ""}
                        </button>
                        <button id="restorePurchasesBtn" class="paywall-restore" ${purchaseBusy ? "disabled" : ""}>
                            RESTORE PURCHASES
@@ -391,6 +391,8 @@ else {
 // Ask StoreKit for the current Apple product and existing entitlement.
 // Browser/GitHub Pages builds continue to work as the free edition.
 initializeStore();
+
+
 
 
 
