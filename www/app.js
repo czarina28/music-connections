@@ -1,17 +1,92 @@
-let currentPuzzleIndex =
-    Math.floor(Math.random() * PUZZLES.length);
+// Music Connections v1.1 freemium progression layer
+const FREE_PUZZLE_SEQUENCE = [6, 22, 26, 14, 33, 43, 38, 29, 47, 50];
+const FREE_PUZZLE_IDS = new Set(FREE_PUZZLE_SEQUENCE);
+const PROGRESS_KEY = "musicConnectionsCompletedPuzzleIds";
 
-let puzzle = PUZZLES[currentPuzzleIndex].groups;
+// StoreKit will become the source of truth for this value in the iOS app.
+// Until StoreKit is wired in, the browser build intentionally behaves as the free edition.
+let hasFullGame = false;
+
+function puzzleHasUniqueCards(puzzleEntry) {
+    const cards = puzzleEntry.groups.flatMap(group => group.cards);
+    return cards.length === 16 && new Set(cards).size === 16;
+}
+
+function loadCompletedPuzzleIds() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "[]");
+        return new Set(Array.isArray(saved) ? saved.filter(Number.isInteger) : []);
+    } catch {
+        return new Set();
+    }
+}
+
+let completedPuzzleIds = loadCompletedPuzzleIds();
+
+function saveProgress() {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify([...completedPuzzleIds]));
+}
+
+const VALID_PUZZLE_INDEXES = PUZZLES
+    .map((puzzleEntry, index) => puzzleHasUniqueCards(puzzleEntry) ? index : -1)
+    .filter(index => index !== -1);
+
+const VALID_INDEX_BY_ID = new Map(
+    VALID_PUZZLE_INDEXES.map(index => [PUZZLES[index].id, index])
+);
+
+if (VALID_PUZZLE_INDEXES.length === 0) {
+    throw new Error("No valid puzzles available: every puzzle must contain 16 unique cards.");
+}
+
+function getNextFreePuzzleIndex() {
+    const nextId = FREE_PUZZLE_SEQUENCE.find(id => !completedPuzzleIds.has(id));
+    return nextId === undefined ? null : VALID_INDEX_BY_ID.get(nextId) ?? null;
+}
+
+function getUnplayedFullPuzzleIndexes() {
+    return VALID_PUZZLE_INDEXES.filter(index => !completedPuzzleIds.has(PUZZLES[index].id));
+}
+
+function chooseRandomIndex(indexes) {
+    if (indexes.length === 0) return null;
+    return indexes[Math.floor(Math.random() * indexes.length)];
+}
+
+function chooseNextPuzzleIndex() {
+    if (!hasFullGame) return getNextFreePuzzleIndex();
+
+    const unplayed = getUnplayedFullPuzzleIndexes();
+    if (unplayed.length > 0) return chooseRandomIndex(unplayed);
+
+    // Once the entire collection has been completed, allow replaying the full library.
+    const alternatives = VALID_PUZZLE_INDEXES.filter(index => index !== currentPuzzleIndex);
+    return chooseRandomIndex(alternatives.length ? alternatives : VALID_PUZZLE_INDEXES);
+}
+
+let currentPuzzleIndex = hasFullGame ? chooseNextPuzzleIndex() : getNextFreePuzzleIndex();
+let puzzle = currentPuzzleIndex === null ? [] : PUZZLES[currentPuzzleIndex].groups;
 let remainingCards = puzzle.flatMap(group => group.cards);
 let selected = [];
 let solved = [];
 let mistakesRemaining = 4;
-let gameOver = false;
+let roundOver = currentPuzzleIndex === null;
+let roundFailed = false;
+let freeCollectionComplete = !hasFullGame && currentPuzzleIndex === null;
+let roundNumber = hasFullGame ? completedPuzzleIds.size + 1 : FREE_PUZZLE_SEQUENCE.filter(id => completedPuzzleIds.has(id)).length + 1;
+let score = 0;
 
 const board = document.getElementById("board");
 const solvedGroups = document.getElementById("solvedGroups");
 const mistakes = document.getElementById("mistakes");
 const message = document.getElementById("message");
+const roundNumberDisplay = document.getElementById("roundNumber");
+const scoreDisplay = document.getElementById("score");
+const nextRoundBtn = document.getElementById("nextRoundBtn");
+const newGameBtn = document.getElementById("newGameBtn");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const deselectBtn = document.getElementById("deselectBtn");
+const submitBtn = document.getElementById("submitBtn");
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -20,48 +95,66 @@ function shuffle(array) {
     }
 }
 
-function render() {
+function showFreeCollectionComplete() {
+    freeCollectionComplete = true;
+    roundOver = true;
     board.innerHTML = "";
+    solvedGroups.innerHTML = "";
+    mistakes.innerHTML = "";
+    message.innerHTML = "YOU’VE COMPLETED THE FREE COLLECTION<br><strong>64 more puzzles await.</strong><br>UNLOCK FULL GAME — €2.99";
+    shuffleBtn.style.display = "none";
+    deselectBtn.style.display = "none";
+    submitBtn.style.display = "none";
+    nextRoundBtn.style.display = "none";
+    newGameBtn.style.display = "none";
+}
 
+function render() {
+    if (freeCollectionComplete) {
+        showFreeCollectionComplete();
+        return;
+    }
+
+    board.innerHTML = "";
     remainingCards.forEach(card => {
         const button = document.createElement("button");
         button.className = "card";
         button.textContent = card;
-
-        if (selected.includes(card)) {
-            button.classList.add("selected");
-        }
-
+        if (selected.includes(card)) button.classList.add("selected");
         button.addEventListener("click", () => selectCard(card));
         board.appendChild(button);
     });
 
     mistakes.innerHTML = "";
-
     for (let i = 0; i < mistakesRemaining; i++) {
         const dot = document.createElement("span");
         dot.className = "mistake-dot";
         mistakes.appendChild(dot);
     }
+
+    roundNumberDisplay.textContent = hasFullGame ? roundNumber : `${Math.min(roundNumber, 10)}/10`;
+    scoreDisplay.textContent = score;
+
+    shuffleBtn.style.display = roundFailed ? "none" : "inline-block";
+    deselectBtn.style.display = roundFailed ? "none" : "inline-block";
+    submitBtn.style.display = roundFailed ? "none" : "inline-block";
+    nextRoundBtn.style.display = roundOver && !roundFailed ? "inline-block" : "none";
+    newGameBtn.style.display = roundFailed ? "inline-block" : "none";
 }
 
 function selectCard(card) {
-    if (gameOver) return;
-
-    if (selected.includes(card)) {
-        selected = selected.filter(item => item !== card);
-    } else {
+    if (roundOver) return;
+    if (selected.includes(card)) selected = selected.filter(item => item !== card);
+    else {
         if (selected.length >= 4) return;
         selected.push(card);
     }
-
     message.textContent = "";
     render();
 }
 
 function submitGuess() {
-    if (gameOver) return;
-
+    if (roundOver) return;
     if (selected.length !== 4) {
         message.textContent = "Select four cards.";
         return;
@@ -74,101 +167,103 @@ function submitGuess() {
 
     if (match) {
         solved.push(match);
-
-        remainingCards = remainingCards.filter(
-            card => !match.cards.includes(card)
-        );
-
+        remainingCards = remainingCards.filter(card => !match.cards.includes(card));
         showSolvedGroup(match);
-
         selected = [];
         message.textContent = "Correct.";
 
         if (solved.length === 4) {
-            message.textContent = "You found all four connections!";
-            gameOver = true;
-        }
+            const pointsEarned = mistakesRemaining;
+            score += pointsEarned;
+            roundOver = true;
+            completedPuzzleIds.add(PUZZLES[currentPuzzleIndex].id);
+            saveProgress();
+            message.textContent = `ROUND COMPLETE — +${pointsEarned} ${pointsEarned === 1 ? "POINT" : "POINTS"}`;
 
+            if (!hasFullGame && getNextFreePuzzleIndex() === null) {
+                showFreeCollectionComplete();
+                return;
+            }
+        }
     } else {
         mistakesRemaining--;
         selected = [];
         message.textContent = "Not quite.";
 
         if (mistakesRemaining === 0) {
-            message.textContent = "Game over.";
-            gameOver = true;
+            roundOver = true;
+            roundFailed = true;
+            message.textContent = "ROUND OVER — +0 POINTS";
             revealRemainingGroups();
         }
     }
-
     render();
 }
 
 function showSolvedGroup(group, wasSolved = true) {
     const div = document.createElement("div");
     div.className = "solved-group";
-
-    if (!wasSolved) {
-        div.classList.add("revealed-group");
-    }
-
-    div.innerHTML = `
-        <strong>${group.connection}</strong>
-        <span>${group.cards.join(" · ")}</span>
-    `;
-
+    if (!wasSolved) div.classList.add("revealed-group");
+    div.innerHTML = `<strong>${group.connection}</strong><span>${group.cards.join(" · ")}</span>`;
     solvedGroups.appendChild(div);
 }
 
 function revealRemainingGroups() {
     puzzle.forEach(group => {
-        if (!solved.includes(group)) {
-            showSolvedGroup(group, false);
-        }
+        if (!solved.includes(group)) showSolvedGroup(group, false);
     });
-
     remainingCards = [];
 }
 
-document.getElementById("submitBtn").addEventListener("click", submitGuess);
-
-document.getElementById("deselectBtn").addEventListener("click", () => {
-    selected = [];
-    message.textContent = "";
-    render();
-});
-
-document.getElementById("shuffleBtn").addEventListener("click", () => {
-    shuffle(remainingCards);
-    selected = [];
-    render();
-});
-
-shuffle(remainingCards);
-render();
-
-document.getElementById("newGameBtn").addEventListener("click", () => {
-    let nextIndex;
-
-    do {
-        nextIndex = Math.floor(Math.random() * PUZZLES.length);
-    } while (
-        PUZZLES.length > 1 &&
-        nextIndex === currentPuzzleIndex
-    );
+function loadRound(nextIndex) {
+    if (nextIndex === null) {
+        showFreeCollectionComplete();
+        return;
+    }
 
     currentPuzzleIndex = nextIndex;
     puzzle = PUZZLES[currentPuzzleIndex].groups;
-
     remainingCards = puzzle.flatMap(group => group.cards);
     selected = [];
     solved = [];
     mistakesRemaining = 4;
-    gameOver = false;
-
+    roundOver = false;
+    roundFailed = false;
+    freeCollectionComplete = false;
     solvedGroups.innerHTML = "";
     message.textContent = "";
-
     shuffle(remainingCards);
     render();
+}
+
+function startNextRound() {
+    roundNumber++;
+    loadRound(chooseNextPuzzleIndex());
+}
+
+function startNewGame() {
+    score = 0;
+    loadRound(currentPuzzleIndex);
+}
+
+submitBtn.addEventListener("click", submitGuess);
+deselectBtn.addEventListener("click", () => {
+    if (roundOver) return;
+    selected = [];
+    message.textContent = "";
+    render();
 });
+shuffleBtn.addEventListener("click", () => {
+    if (roundOver) return;
+    shuffle(remainingCards);
+    selected = [];
+    render();
+});
+nextRoundBtn.addEventListener("click", startNextRound);
+newGameBtn.addEventListener("click", startNewGame);
+
+if (freeCollectionComplete) showFreeCollectionComplete();
+else {
+    shuffle(remainingCards);
+    render();
+}

@@ -12,10 +12,13 @@
     <header>
         <h1>MUSIC <span>CONNECTIONS</span></h1>
         <p>Find four groups of four connected by music.</p>
+        <div class="session-status">
+            <span>ROUND <strong id="roundNumber">1</strong></span>
+            <span>SCORE <strong id="score">0</strong></span>
+        </div>
     </header>
 
     <section id="solvedGroups" class="solved-groups"></section>
-
     <section id="board" class="board"></section>
 
     <div class="mistakes">
@@ -23,17 +26,23 @@
         <span id="mistakes"></span>
     </div>
 
-<div class="controls">
-    <button id="shuffleBtn">SHUFFLE</button>
-    <button id="deselectBtn">DESELECT</button>
-    <button id="newGameBtn">NEW GAME</button>
-    <button id="submitBtn" class="primary">SUBMIT</button>
-</div>
+    <div class="controls">
+        <button id="shuffleBtn">SHUFFLE</button>
+        <button id="deselectBtn">DESELECT</button>
+        <button id="nextRoundBtn">NEXT ROUND</button>
+        <button id="newGameBtn" class="primary">NEW GAME</button>
+        <button id="submitBtn" class="primary">SUBMIT</button>
+    </div>
 
     <div id="message" class="message"></div>
 </main>
 
 <script src="puzzles.js"></script>
+<script src="puzzles-26-30.js"></script>
+<script src="puzzles-31-35.js"></script>
+<script src="puzzles-36-40.js"></script>
+<script src="puzzles-41-50.js"></script>
+<script src="puzzles-51-74.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
