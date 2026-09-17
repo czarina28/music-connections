@@ -8,6 +8,7 @@ let hasFullGame = false;
 let storeProduct = null;
 let storeReady = false;
 let purchaseBusy = false;
+let storeDebug = "Store not checked yet.";
 
 function ownsFullGame(result) {
     const purchases = result?.purchases || [];
@@ -26,6 +27,8 @@ async function initializeStore() {
         storeProduct = productResult?.product || productResult || null;
 
         const purchases = await store.getPurchases();
+        storeDebug = "Startup purchases: " + JSON.stringify(purchases);
+        console.log("STOREKIT STARTUP:", purchases);
         hasFullGame = ownsFullGame(purchases);
         storeReady = true;
 
@@ -76,6 +79,8 @@ async function restoreFullGame() {
 
     try {
         const purchases = await window.MusicConnectionsStore.restorePurchases();
+        storeDebug = "Restore purchases: " + JSON.stringify(purchases);
+        console.log("STOREKIT RESTORE:", purchases);
 
         if (ownsFullGame(purchases)) {
             hasFullGame = true;
@@ -208,6 +213,7 @@ function showFreeCollectionComplete(statusText = "") {
                     : `<div class="paywall-web">Full Game available in the iPhone app.</div>`
             }
             ${statusText ? `<div class="paywall-status">${statusText}</div>` : ""}
+            <div style="font-size:11px; margin-top:18px; text-align:left; word-break:break-all;">${storeDebug}</div>
         </div>
     `;
 
@@ -383,6 +389,7 @@ else {
 // Ask StoreKit for the current Apple product and existing entitlement.
 // Browser/GitHub Pages builds continue to work as the free edition.
 initializeStore();
+
 
 
 
