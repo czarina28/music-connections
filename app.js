@@ -234,7 +234,7 @@ function showFreeCollectionComplete(statusText = "") {
     newGameBtn.style.display = "none";
 }
 function render() {
-    mistakes.parentElement.style.display = "";
+    mistakes.parentElement.style.display = roundFailed ? "none" : "";
     if (freeCollectionComplete) {
         showFreeCollectionComplete();
         return;
@@ -303,7 +303,7 @@ function submitGuess() {
             roundOver = true;
             completedPuzzleIds.add(PUZZLES[currentPuzzleIndex].id);
             saveProgress();
-            message.textContent = `ROUND COMPLETE â€” +${pointsEarned} ${pointsEarned === 1 ? "POINT" : "POINTS"}`;
+            message.textContent = `ROUND COMPLETE - +${pointsEarned} ${pointsEarned === 1 ? "POINT" : "POINTS"}`;
 
             if (!hasFullGame && getNextFreePuzzleIndex() === null) {
                 showFreeCollectionComplete();
@@ -318,7 +318,7 @@ function submitGuess() {
         if (mistakesRemaining === 0) {
             roundOver = true;
             roundFailed = true;
-            message.textContent = "ROUND OVER â€” +0 POINTS";
+            message.textContent = "ROUND OVER - +0 POINTS";
             revealRemainingGroups();
         }
     }
