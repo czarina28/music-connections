@@ -11,12 +11,13 @@ let purchaseBusy = false;
 let storeDebug = "Store not checked yet.";
 
 function ownsFullGame(result) {
-    const purchases = result?.purchases || [];
-
-    return purchases.some(
-        purchase =>
-            purchase.productIdentifier === window.MusicConnectionsStore?.PRODUCT_ID
-    );
+    const purchases = Array.isArray(result) ? result : (result?.purchases || result?.transactions || []);
+    return purchases.some(purchase => {
+        const id = purchase.productIdentifier || purchase.productId || purchase.productID;
+        return id === window.MusicConnectionsStore?.PRODUCT_ID &&
+            purchase.isActive !== false && purchase.isRefunded !== true &&
+            purchase.revocationDate == null;
+    });
 }
 async function initializeStore() {
     const store = window.MusicConnectionsStore;
@@ -55,8 +56,9 @@ async function purchaseFullGame() {
     try {
         const transaction = await window.MusicConnectionsStore.purchaseFullGame();
 
-        if (transaction?.productIdentifier !== window.MusicConnectionsStore.PRODUCT_ID) {
-            throw new Error("Purchase returned an unexpected product.");
+        if (!ownsFullGame({ purchases: [transaction?.transaction || transaction] })) {
+            const verified = await window.MusicConnectionsStore.getPurchases();
+            if (!ownsFullGame(verified)) throw new Error("Purchase not yet verified by StoreKit.");
         }
 
         hasFullGame = true;
@@ -195,7 +197,7 @@ function showFreeCollectionComplete(statusText = "") {
 
     mistakes.parentElement.style.display = "none";
 
-    const price = storeProduct?.priceString || "";
+    const price = storeProduct?.priceString || storeProduct?.localizedPrice || "";
     const nativeStoreAvailable = !!window.MusicConnectionsStore;
 
     message.innerHTML = `
@@ -213,7 +215,7 @@ function showFreeCollectionComplete(statusText = "") {
                     : `<div class="paywall-web">Full Game available in the iPhone app.</div>`
             }
             ${statusText ? `<div class="paywall-status">${statusText}</div>` : ""}
-            <div style="font-size:11px; margin-top:18px; text-align:left; word-break:break-all;">${storeDebug}</div>
+
         </div>
     `;
 
