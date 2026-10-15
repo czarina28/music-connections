@@ -146,6 +146,15 @@ jobs:
           mkdir -p www
           npx esbuild storekit.js --bundle --format=iife --platform=browser --outfile=www/storekit.bundle.js
           cp index.html app.js app.css puzzles.js puzzles-26-30.js puzzles-31-35.js puzzles-36-40.js puzzles-41-50.js puzzles-51-74.js www/
+          # Enable purchase preview only in the manually triggered TestFlight build.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('www/index.html')
+          html = p.read_text()
+          marker = '<script src="app.js"></script>'
+          assert marker in html
+          p.write_text(html.replace(marker, '<script>window.MC_TESTFLIGHT_PREVIEW = true;</script>\n' + marker))
+          PY
           npx cap sync ios
       - name: Archive signed iPhone app
         run: |
