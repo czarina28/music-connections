@@ -2,6 +2,7 @@
 const FREE_PUZZLE_SEQUENCE = [6, 22, 26, 14, 33, 43, 38, 29, 47, 50];
 const FREE_PUZZLE_IDS = new Set(FREE_PUZZLE_SEQUENCE);
 const PROGRESS_KEY = "musicConnectionsCompletedPuzzleIds";
+const IS_TESTFLIGHT_PREVIEW = window.MC_TESTFLIGHT_PREVIEW === true;
 
 // StoreKit is the source of truth for Full Game ownership on iOS.
 let hasFullGame = false;
@@ -219,6 +220,7 @@ function showFreeCollectionComplete(statusText = "") {
                        </button>`
                     : `<div class="paywall-web">Full Game available in the iPhone app.</div>`
             }
+            ${IS_TESTFLIGHT_PREVIEW ? `<button id="closePreviewBtn" class="paywall-restore">BACK TO GAME</button>` : ""}
             ${statusText ? `<div class="paywall-status">${statusText}</div>` : ""}
 
         </div>
@@ -226,6 +228,7 @@ function showFreeCollectionComplete(statusText = "") {
 
     document.getElementById("unlockFullGameBtn")?.addEventListener("click", purchaseFullGame);
     document.getElementById("restorePurchasesBtn")?.addEventListener("click", restoreFullGame);
+    document.getElementById("closePreviewBtn")?.addEventListener("click", () => loadRound(currentPuzzleIndex));
 
     shuffleBtn.style.display = "none";
     deselectBtn.style.display = "none";
@@ -265,6 +268,8 @@ function render() {
     submitBtn.style.display = roundFailed ? "none" : "inline-block";
     nextRoundBtn.style.display = roundOver && !roundFailed ? "inline-block" : "none";
     newGameBtn.style.display = roundFailed ? "inline-block" : "none";
+    const testBtn = document.getElementById("testPurchaseBtn");
+    if (testBtn) testBtn.style.display = IS_TESTFLIGHT_PREVIEW && !hasFullGame ? "inline-block" : "none";
 }
 
 function selectCard(card) {
@@ -372,6 +377,14 @@ function startNewGame() {
 }
 
 submitBtn.addEventListener("click", submitGuess);
+if (IS_TESTFLIGHT_PREVIEW) {
+    const btn = document.createElement("button");
+    btn.id = "testPurchaseBtn";
+    btn.textContent = "TEST PURCHASE";
+    btn.style.cssText = "display:block;margin:16px auto;padding:10px 16px;font-size:12px;opacity:.7";
+    btn.addEventListener("click", () => showFreeCollectionComplete());
+    document.querySelector(".game").appendChild(btn);
+}
 deselectBtn.addEventListener("click", () => {
     if (roundOver) return;
     selected = [];
