@@ -24,8 +24,13 @@ async function initializeStore() {
     if (!store) return;
 
     try {
-        const productResult = await store.getProduct();
-        storeProduct = productResult?.product || productResult || null;
+        // Product metadata can be unavailable while StoreKit entitlement lookup still works.
+        try {
+            const productResult = await store.getProduct();
+            storeProduct = productResult?.product || productResult || null;
+        } catch (productError) {
+            console.warn("StoreKit product metadata unavailable:", productError);
+        }
 
         const purchases = await store.getPurchases();
         storeDebug = "Startup purchases: " + JSON.stringify(purchases);
